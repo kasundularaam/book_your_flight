@@ -1,8 +1,7 @@
 class Strings {
   // App
-  static final appTitle = 'App Name';
+  static const appTitle = 'Book Your Flight';
 
-  // HomeScreen
-  static final homeScreenTitle = 'Home Screen';
-  static final homeScreenCenterText = 'Welcome to Flutterly!';
+  static const String logoPrimary = "assets/logo_primary.png";
+  static const String logoShade = "assets/logo_shade.png";
 }
