@@ -1,8 +1,10 @@
+import 'package:book_your_flight/logic/cubit/booking_type_cubit/booking_type_cubit.dart';
 import 'package:book_your_flight/presentation/screens/auth/landing_screen/landing_page.dart';
 import 'package:book_your_flight/presentation/screens/auth/login_screen/login_page.dart';
 import 'package:book_your_flight/presentation/screens/auth/signup_screen/signup_page.dart';
 import 'package:book_your_flight/presentation/screens/home_screen/home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/exceptions/route_exception.dart';
 
@@ -22,7 +24,10 @@ class AppRouter {
         );
       case homePage:
         return MaterialPageRoute(
-          builder: (_) => const HomePage(),
+          builder: (_) => BlocProvider(
+            create: (context) => BookingTypeCubit(),
+            child: const HomePage(),
+          ),
         );
       case loginPage:
         return MaterialPageRoute(
