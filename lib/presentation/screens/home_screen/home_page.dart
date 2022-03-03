@@ -24,9 +24,122 @@ class _HomePageState extends State<HomePage> {
   TextEditingController passengersController = TextEditingController();
   TextEditingController kidsController = TextEditingController();
   TextEditingController kgsController = TextEditingController();
+
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            SafeArea(
+              child: Padding(
+                padding: EdgeInsets.all(5.w),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        ClipOval(
+                          child: Image.asset(
+                            Strings.profile,
+                            width: 15.w,
+                            height: 15.w,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 3.w,
+                        ),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Karam Valencia",
+                                style: TextStyle(
+                                  color: AppColors.primaryColor,
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              FittedBox(
+                                child: Text(
+                                  "karamvalencia69@gmail.com",
+                                  style: TextStyle(
+                                      color: AppColors.primaryColor,
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.normal),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 2.h,
+                    ),
+                    Container(
+                      height: 0.1.h,
+                      color: AppColors.primaryColor,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            ListTile(
+              title: Text(
+                "Home",
+                style: TextStyle(
+                  color: AppColors.primaryColor,
+                  fontSize: 14.sp,
+                ),
+              ),
+              leading: const Icon(
+                Icons.home_rounded,
+                color: AppColors.primaryColor,
+              ),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: Text(
+                "Current",
+                style: TextStyle(
+                  color: AppColors.primaryColor,
+                  fontSize: 14.sp,
+                ),
+              ),
+              leading: const Icon(
+                Icons.bookmark_rounded,
+                color: AppColors.primaryColor,
+              ),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: Text(
+                "History",
+                style: TextStyle(
+                  color: AppColors.primaryColor,
+                  fontSize: 14.sp,
+                ),
+              ),
+              leading: const Icon(
+                Icons.history_rounded,
+                color: AppColors.primaryColor,
+              ),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
+      ),
       backgroundColor: AppColors.primaryColor,
       body: SafeArea(
         child: Column(
@@ -39,12 +152,15 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(
                     height: 1.h,
                   ),
-                  ClipOval(
-                    child: Image.asset(
-                      Strings.profile,
-                      width: 10.w,
-                      height: 10.w,
-                      fit: BoxFit.cover,
+                  GestureDetector(
+                    onTap: () => scaffoldKey.currentState!.openDrawer(),
+                    child: ClipOval(
+                      child: Image.asset(
+                        Strings.profile,
+                        width: 10.w,
+                        height: 10.w,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                   Row(
