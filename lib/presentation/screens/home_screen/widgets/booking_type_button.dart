@@ -3,11 +3,11 @@ import 'package:sizer/sizer.dart';
 
 import '../../../../core/constants/app_colors.dart';
 
-class SwitchButton extends StatelessWidget {
+class BookingTypeButton extends StatelessWidget {
   final bool selected;
   final String text;
   final Function onTap;
-  const SwitchButton({
+  const BookingTypeButton({
     Key? key,
     required this.selected,
     required this.text,

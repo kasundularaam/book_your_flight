@@ -1,4 +1,5 @@
 import 'package:book_your_flight/logic/cubit/booking_type_cubit/booking_type_cubit.dart';
+import 'package:book_your_flight/logic/cubit/select_class_cubit/select_class_cubit.dart';
 import 'package:book_your_flight/presentation/screens/auth/landing_screen/landing_page.dart';
 import 'package:book_your_flight/presentation/screens/auth/login_screen/login_page.dart';
 import 'package:book_your_flight/presentation/screens/auth/signup_screen/signup_page.dart';
@@ -24,8 +25,15 @@ class AppRouter {
         );
       case homePage:
         return MaterialPageRoute(
-          builder: (_) => BlocProvider(
-            create: (context) => BookingTypeCubit(),
+          builder: (_) => MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => BookingTypeCubit(),
+              ),
+              BlocProvider(
+                create: (context) => SelectClassCubit(),
+              )
+            ],
             child: const HomePage(),
           ),
         );

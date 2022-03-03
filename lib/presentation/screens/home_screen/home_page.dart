@@ -1,11 +1,17 @@
-import 'package:book_your_flight/logic/cubit/booking_type_cubit/booking_type_cubit.dart';
-import 'package:book_your_flight/presentation/screens/home_screen/widgets/switch_button.dart';
+import 'package:book_your_flight/logic/cubit/select_class_cubit/select_class_cubit.dart';
+import 'package:book_your_flight/presentation/screens/home_screen/widgets/nonstop_flight_filter_switch.dart';
+import 'package:book_your_flight/presentation/screens/home_screen/widgets/search_flights_button.dart';
+import 'package:book_your_flight/presentation/screens/home_screen/widgets/select_class_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/strings.dart';
+import '../../../logic/cubit/booking_type_cubit/booking_type_cubit.dart';
+import 'widgets/date_view.dart';
+import 'widgets/selected_city_view.dart';
+import 'widgets/booking_type_button.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -15,6 +21,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  TextEditingController passengersController = TextEditingController();
+  TextEditingController kidsController = TextEditingController();
+  TextEditingController kgsController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,13 +37,13 @@ class _HomePageState extends State<HomePage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    height: 2.h,
+                    height: 1.h,
                   ),
                   ClipOval(
                     child: Image.asset(
                       Strings.profile,
-                      width: 12.w,
-                      height: 12.w,
+                      width: 10.w,
+                      height: 10.w,
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -74,21 +83,21 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                   SizedBox(
-                    height: 2.h,
+                    height: 1.h,
                   ),
                   BlocBuilder<BookingTypeCubit, BookingTypeState>(
                     builder: (context, state) {
                       if (state is BookingTypeRoundTrip) {
                         return Row(
                           children: [
-                            SwitchButton(
+                            BookingTypeButton(
                               text: "Round-Trip",
                               selected: true,
                               onTap: () =>
                                   BlocProvider.of<BookingTypeCubit>(context)
                                       .selectRoundTrip(),
                             ),
-                            SwitchButton(
+                            BookingTypeButton(
                               text: "One-Way",
                               selected: false,
                               onTap: () =>
@@ -100,14 +109,14 @@ class _HomePageState extends State<HomePage> {
                       } else {
                         return Row(
                           children: [
-                            SwitchButton(
+                            BookingTypeButton(
                               text: "Round-Trip",
                               selected: false,
                               onTap: () =>
                                   BlocProvider.of<BookingTypeCubit>(context)
                                       .selectRoundTrip(),
                             ),
-                            SwitchButton(
+                            BookingTypeButton(
                               text: "One-Way",
                               selected: true,
                               onTap: () =>
@@ -123,22 +132,375 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             SizedBox(
-              height: 1.h,
+              height: 2.h,
             ),
             Expanded(
-                child: Container(
-              decoration: BoxDecoration(
-                color: AppColors.lightColor,
-                borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(
-                    5.w,
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 5.w),
+                decoration: BoxDecoration(
+                  color: AppColors.lightColor,
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(
+                      5.w,
+                    ),
                   ),
                 ),
+                child: ListView(
+                  physics: const BouncingScrollPhysics(),
+                  children: [
+                    SizedBox(
+                      height: 3.h,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "From",
+                          style: TextStyle(
+                            color: AppColors.darkElv1,
+                            fontSize: 12.sp,
+                          ),
+                        ),
+                        Text(
+                          "To",
+                          style: TextStyle(
+                            color: AppColors.darkElv1,
+                            fontSize: 12.sp,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 2.h,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Flexible(
+                          flex: 1,
+                          child: SelectedCityView(),
+                        ),
+                        Flexible(
+                          flex: 2,
+                          child: Icon(
+                            Icons.swap_horiz_rounded,
+                            color: AppColors.primaryColor,
+                            size: 30.sp,
+                          ),
+                        ),
+                        const Flexible(
+                          flex: 1,
+                          child: SelectedCityView(),
+                        )
+                      ],
+                    ),
+                    SizedBox(
+                      height: 4.h,
+                    ),
+                    BlocBuilder<BookingTypeCubit, BookingTypeState>(
+                      builder: (context, state) {
+                        if (state is BookingTypeOneWay) {
+                          return Text(
+                            "Departure",
+                            style: TextStyle(
+                              color: AppColors.darkElv1,
+                              fontSize: 12.sp,
+                            ),
+                          );
+                        } else {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Departure",
+                                style: TextStyle(
+                                  color: AppColors.darkElv1,
+                                  fontSize: 12.sp,
+                                ),
+                              ),
+                              Text(
+                                "Return",
+                                style: TextStyle(
+                                  color: AppColors.darkElv1,
+                                  fontSize: 12.sp,
+                                ),
+                              ),
+                            ],
+                          );
+                        }
+                      },
+                    ),
+                    SizedBox(
+                      height: 2.h,
+                    ),
+                    BlocBuilder<BookingTypeCubit, BookingTypeState>(
+                      builder: (context, state) {
+                        if (state is BookingTypeOneWay) {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Flexible(flex: 1, child: SizedBox()),
+                              Flexible(
+                                  flex: 2,
+                                  child: DateView(
+                                    datePicked: (date) {},
+                                  )),
+                              const Flexible(flex: 1, child: SizedBox()),
+                            ],
+                          );
+                        } else {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Flexible(
+                                  flex: 2,
+                                  child: DateView(
+                                    datePicked: (date) {},
+                                  )),
+                              const Flexible(flex: 1, child: SizedBox()),
+                              Flexible(
+                                  flex: 2,
+                                  child: DateView(
+                                    datePicked: (date) {},
+                                  ))
+                            ],
+                          );
+                        }
+                      },
+                    ),
+                    SizedBox(
+                      height: 4.h,
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "Passengers",
+                              style: TextStyle(
+                                color: AppColors.darkElv1,
+                                fontSize: 12.sp,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Center(
+                            child: Text(
+                              "Kids",
+                              style: TextStyle(
+                                color: AppColors.darkElv1,
+                                fontSize: 12.sp,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: Text(
+                              "Kgs",
+                              style: TextStyle(
+                                color: AppColors.darkElv1,
+                                fontSize: 12.sp,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 2.h,
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: TextFormField(
+                              controller: passengersController,
+                              keyboardType: TextInputType.number,
+                              decoration: const InputDecoration(
+                                suffixIcon: Icon(
+                                  Icons.person_rounded,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const Expanded(
+                          flex: 1,
+                          child: SizedBox(),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Center(
+                            child: TextFormField(
+                              keyboardType: TextInputType.number,
+                              controller: kidsController,
+                              decoration: const InputDecoration(
+                                suffixIcon: Icon(
+                                  Icons.child_care_rounded,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const Expanded(
+                          flex: 1,
+                          child: SizedBox(),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: TextFormField(
+                              keyboardType: TextInputType.number,
+                              controller: kgsController,
+                              decoration: const InputDecoration(
+                                suffixIcon: Icon(
+                                  Icons.shopping_bag_rounded,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 4.h,
+                    ),
+                    Text(
+                      "Class",
+                      style: TextStyle(
+                        color: AppColors.darkElv1,
+                        fontSize: 12.sp,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 2.h,
+                    ),
+                    BlocBuilder<SelectClassCubit, SelectClassState>(
+                      builder: (context, state) {
+                        if (state is SelectClassElite) {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              SelectClassButton(
+                                isSelected: false,
+                                text: "Economy",
+                                icon: Icons.airline_seat_recline_normal_rounded,
+                                onSelected: () =>
+                                    BlocProvider.of<SelectClassCubit>(context)
+                                        .selectClassEconomy(),
+                              ),
+                              SelectClassButton(
+                                isSelected: false,
+                                text: "Business",
+                                icon: Icons.person,
+                                onSelected: () =>
+                                    BlocProvider.of<SelectClassCubit>(context)
+                                        .selectClassBusiness(),
+                              ),
+                              SelectClassButton(
+                                isSelected: true,
+                                text: "Elite",
+                                icon: Icons.person,
+                                onSelected: () =>
+                                    BlocProvider.of<SelectClassCubit>(context)
+                                        .selectClassElite(),
+                              ),
+                            ],
+                          );
+                        } else if (state is SelectClassBusiness) {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              SelectClassButton(
+                                isSelected: false,
+                                text: "Economy",
+                                icon: Icons.airline_seat_recline_normal_rounded,
+                                onSelected: () =>
+                                    BlocProvider.of<SelectClassCubit>(context)
+                                        .selectClassEconomy(),
+                              ),
+                              SelectClassButton(
+                                isSelected: true,
+                                text: "Business",
+                                icon: Icons.person,
+                                onSelected: () =>
+                                    BlocProvider.of<SelectClassCubit>(context)
+                                        .selectClassBusiness(),
+                              ),
+                              SelectClassButton(
+                                isSelected: false,
+                                text: "Elite",
+                                icon: Icons.person,
+                                onSelected: () =>
+                                    BlocProvider.of<SelectClassCubit>(context)
+                                        .selectClassElite(),
+                              ),
+                            ],
+                          );
+                        } else {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              SelectClassButton(
+                                isSelected: true,
+                                text: "Economy",
+                                icon: Icons.airline_seat_recline_normal_rounded,
+                                onSelected: () =>
+                                    BlocProvider.of<SelectClassCubit>(context)
+                                        .selectClassEconomy(),
+                              ),
+                              SelectClassButton(
+                                isSelected: false,
+                                text: "Business",
+                                icon: Icons.person,
+                                onSelected: () =>
+                                    BlocProvider.of<SelectClassCubit>(context)
+                                        .selectClassBusiness(),
+                              ),
+                              SelectClassButton(
+                                isSelected: false,
+                                text: "Elite",
+                                icon: Icons.person,
+                                onSelected: () =>
+                                    BlocProvider.of<SelectClassCubit>(context)
+                                        .selectClassElite(),
+                              ),
+                            ],
+                          );
+                        }
+                      },
+                    ),
+                    SizedBox(
+                      height: 4.h,
+                    ),
+                    NonstopFlightFilterSwitch(
+                      onChange: (value) => print(value),
+                    ),
+                    SizedBox(
+                      height: 4.h,
+                    ),
+                    Center(
+                      child: SearchFlightsButton(
+                        onPressed: () {},
+                      ),
+                    ),
+                    SizedBox(
+                      height: 4.h,
+                    ),
+                  ],
+                ),
               ),
-              child: Center(
-                child: Text("Contents Gose Here"),
-              ),
-            ))
+            ),
           ],
         ),
       ),
