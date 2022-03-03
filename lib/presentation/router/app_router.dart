@@ -3,6 +3,7 @@ import 'package:book_your_flight/logic/cubit/select_class_cubit/select_class_cub
 import 'package:book_your_flight/presentation/screens/auth/landing_screen/landing_page.dart';
 import 'package:book_your_flight/presentation/screens/auth/login_screen/login_page.dart';
 import 'package:book_your_flight/presentation/screens/auth/signup_screen/signup_page.dart';
+import 'package:book_your_flight/presentation/screens/flight_list_screen.dart/flight_list_page.dart';
 import 'package:book_your_flight/presentation/screens/home_screen/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,6 +15,7 @@ class AppRouter {
   static const String homePage = '/homePage';
   static const String loginPage = '/loginPage';
   static const String signupPage = '/signupPage';
+  static const String flightListPage = '/flightListPage';
 
   const AppRouter._();
 
@@ -44,6 +46,10 @@ class AppRouter {
       case signupPage:
         return MaterialPageRoute(
           builder: (_) => const SignupPage(),
+        );
+      case flightListPage:
+        return MaterialPageRoute(
+          builder: (_) => const FlightListPage(),
         );
       default:
         throw const RouteException('Route not found!');

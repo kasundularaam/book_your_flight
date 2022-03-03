@@ -26,9 +26,9 @@ class SelectClassButton extends StatelessWidget {
           vertical: 1.h,
         ),
         decoration: BoxDecoration(
-          border: isSelected
-              ? null
-              : Border.all(width: 0.3.w, color: AppColors.darkElv1),
+          border: Border.all(
+              width: 0.3.w,
+              color: isSelected ? AppColors.primaryColor : AppColors.darkElv1),
           color: isSelected ? AppColors.primaryColor : AppColors.lightColor,
           borderRadius: BorderRadius.circular(
             4.h,
