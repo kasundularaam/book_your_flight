@@ -1,10 +1,15 @@
-import 'package:book_your_flight/core/constants/app_colors.dart';
-import 'package:book_your_flight/presentation/screens/home_screen/widgets/select_city_field.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
+import 'package:book_your_flight/core/constants/app_colors.dart';
+import 'package:book_your_flight/presentation/screens/home_screen/widgets/select_city_field.dart';
+
 class SelectedCityView extends StatefulWidget {
-  const SelectedCityView({Key? key}) : super(key: key);
+  final bool isFrom;
+  const SelectedCityView({
+    Key? key,
+    required this.isFrom,
+  }) : super(key: key);
 
   @override
   State<SelectedCityView> createState() => _SelectedCityViewState();
@@ -24,7 +29,8 @@ class _SelectedCityViewState extends State<SelectedCityView> {
         }),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment:
+            widget.isFrom ? CrossAxisAlignment.start : CrossAxisAlignment.end,
         children: [
           Text(
             cityWithCode.city,

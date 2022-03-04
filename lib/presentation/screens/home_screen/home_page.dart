@@ -308,7 +308,9 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           const Flexible(
                             flex: 1,
-                            child: SelectedCityView(),
+                            child: SelectedCityView(
+                              isFrom: true,
+                            ),
                           ),
                           Flexible(
                             flex: 2,
@@ -320,7 +322,9 @@ class _HomePageState extends State<HomePage> {
                           ),
                           const Flexible(
                             flex: 1,
-                            child: SelectedCityView(),
+                            child: SelectedCityView(
+                              isFrom: false,
+                            ),
                           )
                         ],
                       ),

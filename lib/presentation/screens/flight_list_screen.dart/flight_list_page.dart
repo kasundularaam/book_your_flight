@@ -1,4 +1,5 @@
 import 'package:book_your_flight/core/constants/app_colors.dart';
+import 'package:book_your_flight/presentation/screens/flight_list_screen.dart/widgets/details_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sizer/sizer.dart';
@@ -285,6 +286,14 @@ class _FlightListPageState extends State<FlightListPage> {
                         fontWeight: FontWeight.w500,
                       ),
                     ),
+                    SizedBox(
+                      height: 2.h,
+                    ),
+                    ListView.builder(
+                        physics: const BouncingScrollPhysics(),
+                        itemCount: 5,
+                        shrinkWrap: true,
+                        itemBuilder: ((context, index) => const DetailsCard()))
                   ],
                 ),
               )
