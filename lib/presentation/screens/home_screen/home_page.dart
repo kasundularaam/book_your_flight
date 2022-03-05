@@ -33,6 +33,7 @@ class _HomePageState extends State<HomePage> {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
         statusBarColor: AppColors.primaryColor,
+        statusBarIconBrightness: Brightness.light,
       ),
       child: Scaffold(
         key: scaffoldKey,

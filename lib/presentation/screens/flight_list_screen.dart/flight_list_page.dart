@@ -25,7 +25,8 @@ class _FlightListPageState extends State<FlightListPage> {
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
-        statusBarColor: Colors.white,
+        statusBarColor: AppColors.lightColor,
+        statusBarIconBrightness: Brightness.dark,
       ),
       child: Scaffold(
         backgroundColor: AppColors.primaryColor,
@@ -35,22 +36,23 @@ class _FlightListPageState extends State<FlightListPage> {
               Container(
                 padding: EdgeInsets.all(5.w),
                 decoration: BoxDecoration(
-                    color: AppColors.lightColor,
-                    borderRadius: BorderRadius.vertical(
-                      bottom: Radius.circular(5.w),
+                  color: AppColors.lightColor,
+                  borderRadius: BorderRadius.vertical(
+                    bottom: Radius.circular(5.w),
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.darkElv0.withOpacity(
+                        0.2,
+                      ),
+                      offset: Offset(
+                        0,
+                        1.h,
+                      ),
+                      blurRadius: 1.h,
                     ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppColors.darkElv0.withOpacity(
-                          0.2,
-                        ),
-                        offset: Offset(
-                          0,
-                          1.h,
-                        ),
-                        blurRadius: 1.h,
-                      )
-                    ]),
+                  ],
+                ),
                 child: Column(
                   children: [
                     Row(
