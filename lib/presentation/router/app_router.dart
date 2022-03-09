@@ -1,3 +1,4 @@
+import 'package:book_your_flight/presentation/screens/checkout_screen/checkout_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -18,6 +19,7 @@ class AppRouter {
   static const String signupPage = '/signupPage';
   static const String flightListPage = '/flightListPage';
   static const String flightDetailsPage = '/flightDetailsPage';
+  static const String checkoutPage = '/checkoutPage';
 
   const AppRouter._();
 
@@ -56,6 +58,10 @@ class AppRouter {
       case flightDetailsPage:
         return MaterialPageRoute(
           builder: (_) => const FlightDetailsPage(),
+        );
+      case checkoutPage:
+        return MaterialPageRoute(
+          builder: (_) => const CheckoutPage(),
         );
       default:
         throw const RouteException('Route not found!');

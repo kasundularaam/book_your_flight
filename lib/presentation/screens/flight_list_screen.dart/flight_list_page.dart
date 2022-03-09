@@ -14,12 +14,9 @@ class FlightListPage extends StatefulWidget {
 class _FlightListPageState extends State<FlightListPage> {
   String dropdownValue = 'Price';
 
-  // List of items in our dropdown menu
   var items = [
     'Price',
-    'Size',
-    'Seats',
-    'Speed',
+    'Time',
   ];
   @override
   Widget build(BuildContext context) {

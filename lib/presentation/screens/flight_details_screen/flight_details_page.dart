@@ -1,4 +1,5 @@
 import 'package:book_your_flight/core/constants/app_colors.dart';
+import 'package:book_your_flight/presentation/router/app_router.dart';
 import 'package:book_your_flight/presentation/screens/flight_details_screen/widgets/checkout_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -100,48 +101,54 @@ class _FlightDetailsPageState extends State<FlightDetailsPage> {
                       SizedBox(
                         height: 2.h,
                       ),
-                      Image.asset(
-                        "assets/airline.png",
-                        height: 7.h,
-                        fit: BoxFit.fitHeight,
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Image.asset(
+                          "assets/airline.png",
+                          height: 7.h,
+                          fit: BoxFit.fitHeight,
+                        ),
                       ),
                       SizedBox(
                         height: 4.h,
                       ),
-                      Table(
-                        defaultColumnWidth: const IntrinsicColumnWidth(),
-                        children: dataList
-                            .map(
-                              (data) => TableRow(children: [
-                                Text(
-                                  data["key"]!,
-                                  style: keyStyle,
-                                ),
-                                Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        SizedBox(
-                                          width: 5.w,
-                                        ),
-                                        Text(":"),
-                                        SizedBox(
-                                          width: 5.w,
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 3.h,
-                                    ),
-                                  ],
-                                ),
-                                Text(
-                                  data["value"]!,
-                                  style: valueStyle,
-                                ),
-                              ]),
-                            )
-                            .toList(),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Table(
+                          defaultColumnWidth: const IntrinsicColumnWidth(),
+                          children: dataList
+                              .map(
+                                (data) => TableRow(children: [
+                                  Text(
+                                    data["key"]!,
+                                    style: keyStyle,
+                                  ),
+                                  Column(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          SizedBox(
+                                            width: 5.w,
+                                          ),
+                                          Text(":"),
+                                          SizedBox(
+                                            width: 5.w,
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 3.h,
+                                      ),
+                                    ],
+                                  ),
+                                  Text(
+                                    data["value"]!,
+                                    style: valueStyle,
+                                  ),
+                                ]),
+                              )
+                              .toList(),
+                        ),
                       ),
                       SizedBox(
                         height: 2.h,
@@ -230,7 +237,10 @@ class _FlightDetailsPageState extends State<FlightDetailsPage> {
                       SizedBox(
                         height: 2.h,
                       ),
-                      Center(child: CheckoutButton(onPressed: () {})),
+                      Center(
+                          child: CheckoutButton(
+                              onPressed: () => Navigator.pushNamed(
+                                  context, AppRouter.checkoutPage))),
                       SizedBox(
                         height: 2.h,
                       ),

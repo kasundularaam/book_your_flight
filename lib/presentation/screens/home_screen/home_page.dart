@@ -27,6 +27,12 @@ class _HomePageState extends State<HomePage> {
   TextEditingController kidsController = TextEditingController();
   TextEditingController kgsController = TextEditingController();
 
+  @override
+  void dispose() {
+    print("sey bye");
+    super.dispose();
+  }
+
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
