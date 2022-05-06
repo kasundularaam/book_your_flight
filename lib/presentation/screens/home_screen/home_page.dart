@@ -29,7 +29,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void dispose() {
-    print("sey bye");
     super.dispose();
   }
 
