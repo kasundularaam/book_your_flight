@@ -1,5 +1,8 @@
+import 'package:book_your_flight/data/models/register.dart';
+import 'package:book_your_flight/logic/cubit/register_cubit/register_cubit.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../core/constants/app_colors.dart';
@@ -15,10 +18,34 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
-  TextEditingController nameController = TextEditingController();
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  TextEditingController confirmPwController = TextEditingController();
+
+  register() {
+    String username = usernameController.text;
+    String first_name = firstNameController.text;
+    String last_name = lastNameController.text;
+    String email = emailController.text;
+    String password = passwordController.text;
+    if (first_name.isNotEmpty &&
+        last_name.isNotEmpty &&
+        email.isNotEmpty &&
+        password.isNotEmpty) {
+      BlocProvider.of<RegisterCubit>(context).register(
+        register: Register(
+          username: username,
+          first_name: first_name,
+          last_name: last_name,
+          email: email,
+          password: password,
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,14 +80,42 @@ class _SignupPageState extends State<SignupPage> {
                 height: 5.h,
               ),
               Text(
-                "Full Name",
+                "Username",
                 style: TextStyle(
                   color: AppColors.primaryColor,
                   fontSize: 12.sp,
                 ),
               ),
               AuthTextInput(
-                controller: nameController,
+                controller: usernameController,
+                keyboardType: TextInputType.text,
+              ),
+              SizedBox(
+                height: 4.h,
+              ),
+              Text(
+                "First Name",
+                style: TextStyle(
+                  color: AppColors.primaryColor,
+                  fontSize: 12.sp,
+                ),
+              ),
+              AuthTextInput(
+                controller: firstNameController,
+                keyboardType: TextInputType.name,
+              ),
+              SizedBox(
+                height: 4.h,
+              ),
+              Text(
+                "Last Name",
+                style: TextStyle(
+                  color: AppColors.primaryColor,
+                  fontSize: 12.sp,
+                ),
+              ),
+              AuthTextInput(
+                controller: lastNameController,
                 keyboardType: TextInputType.name,
               ),
               SizedBox(
@@ -93,28 +148,32 @@ class _SignupPageState extends State<SignupPage> {
                 isPassword: true,
               ),
               SizedBox(
-                height: 4.h,
-              ),
-              Text(
-                "Confirm Password",
-                style: TextStyle(
-                  color: AppColors.primaryColor,
-                  fontSize: 12.sp,
-                ),
-              ),
-              AuthTextInput(
-                controller: confirmPwController,
-                keyboardType: TextInputType.visiblePassword,
-                isPassword: true,
-              ),
-              SizedBox(
                 height: 5.h,
               ),
               Center(
-                  child: AuthButton(
-                text: "SIGN IN",
-                onPress: () => Navigator.of(context).pushNamedAndRemoveUntil(
-                    AppRouter.homePage, (route) => false),
+                  child: BlocConsumer<RegisterCubit, RegisterState>(
+                listener: (context, state) {
+                  if (state is RegisterFailed) {
+                    SnackBar snackBar =
+                        SnackBar(content: Text(state.toString()));
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  }
+                  if (state is RegisterSucceed) {
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                        AppRouter.landingPage, (route) => false);
+                  }
+                },
+                builder: (context, state) {
+                  if (state is RegisterLoading) {
+                    return const CircularProgressIndicator(
+                      color: AppColors.primaryColor,
+                    );
+                  }
+                  return AuthButton(
+                    text: "SIGN IN",
+                    onPress: () => register(),
+                  );
+                },
               )),
               SizedBox(
                 height: 5.h,

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:http/http.dart' as http;
 
@@ -15,19 +16,13 @@ import '../models/register.dart';
 
 class HTTPServices {
   static Future<BYFUser> login(
-      {required String userName, required String password}) async {
+      {required String username, required String password}) async {
     try {
       final res = await http.post(
           Uri.parse(
             DataProvider.userLogin,
           ),
-          headers: <String, String>{
-            "Content-Type": "application/json; charset=UTF-8",
-          },
-          body: {
-            "username": userName,
-            "password": password
-          });
+          body: {"username": username, "password": password});
 
       if (res.statusCode == 200) {
         return BYFUser.fromJson(res.body);
@@ -45,11 +40,8 @@ class HTTPServices {
           Uri.parse(
             DataProvider.userRegister,
           ),
-          headers: <String, String>{
-            "Content-Type": "application/json; charset=UTF-8",
-          },
-          body: register.toJson());
-
+          body: register.toMap());
+      log(res.body);
       if (res.statusCode == 200) {
         Map<String, dynamic> map = jsonDecode(res.body);
         if (map["status"] == "Error") {
@@ -68,12 +60,10 @@ class HTTPServices {
   static Future<BYFUser> getUserById({required int id}) async {
     try {
       final res = await http.get(
-          Uri.parse(
-            DataProvider.getUserById(id),
-          ),
-          headers: <String, String>{
-            "Content-Type": "application/json; charset=UTF-8",
-          });
+        Uri.parse(
+          DataProvider.getUserById(id),
+        ),
+      );
 
       if (res.statusCode == 200) {
         return BYFUser.fromJson(res.body);
@@ -85,12 +75,11 @@ class HTTPServices {
     }
   }
 
-  static Future<List<Place>> places({required int id}) async {
+  static Future<List<Place>> places() async {
     try {
-      final res = await http
-          .get(Uri.parse(DataProvider.places), headers: <String, String>{
-        "Content-Type": "application/json; charset=UTF-8",
-      });
+      final res = await http.get(
+        Uri.parse(DataProvider.places),
+      );
 
       if (res.statusCode == 200) {
         return HTTPListConverter.parsePlaces(res.body);
@@ -105,12 +94,10 @@ class HTTPServices {
   static Future<Place> getPlaceById({required int id}) async {
     try {
       final res = await http.get(
-          Uri.parse(
-            DataProvider.getPlaceById(id),
-          ),
-          headers: <String, String>{
-            "Content-Type": "application/json; charset=UTF-8",
-          });
+        Uri.parse(
+          DataProvider.getPlaceById(id),
+        ),
+      );
 
       if (res.statusCode == 200) {
         return Place.fromJson(res.body);
@@ -125,10 +112,9 @@ class HTTPServices {
   static Future<List<Flight>> flights(
       {required FlightParams flightParams}) async {
     try {
-      final res = await http.get(Uri.parse(DataProvider.flight(flightParams)),
-          headers: <String, String>{
-            "Content-Type": "application/json; charset=UTF-8",
-          });
+      final res = await http.get(
+        Uri.parse(DataProvider.flight(flightParams)),
+      );
 
       if (res.statusCode == 200) {
         return HTTPListConverter.parseFlights(res.body);
@@ -143,12 +129,10 @@ class HTTPServices {
   static Future<Flight> getFlightById({required int id}) async {
     try {
       final res = await http.get(
-          Uri.parse(
-            DataProvider.getFlightById(id),
-          ),
-          headers: <String, String>{
-            "Content-Type": "application/json; charset=UTF-8",
-          });
+        Uri.parse(
+          DataProvider.getFlightById(id),
+        ),
+      );
 
       if (res.statusCode == 200) {
         return Flight.fromJson(res.body);
@@ -162,10 +146,9 @@ class HTTPServices {
 
   static Future<List<Passenger>> passengers() async {
     try {
-      final res = await http
-          .get(Uri.parse(DataProvider.passenger), headers: <String, String>{
-        "Content-Type": "application/json; charset=UTF-8",
-      });
+      final res = await http.get(
+        Uri.parse(DataProvider.passenger),
+      );
 
       if (res.statusCode == 200) {
         return HTTPListConverter.parsePassengers(res.body);
@@ -186,9 +169,6 @@ class HTTPServices {
           Uri.parse(
             DataProvider.userLogin,
           ),
-          headers: <String, String>{
-            "Content-Type": "application/json; charset=UTF-8",
-          },
           body: {
             "first_name": first_name,
             "last_name": last_name,
@@ -210,9 +190,6 @@ class HTTPServices {
           Uri.parse(
             DataProvider.book,
           ),
-          headers: <String, String>{
-            "Content-Type": "application/json; charset=UTF-8",
-          },
           body: booking.toJson());
       if (res.statusCode == 200) {
         return Booking.fromJson(res.body);
@@ -226,10 +203,9 @@ class HTTPServices {
 
   static Future<List<Booking>> bookings() async {
     try {
-      final res = await http
-          .get(Uri.parse(DataProvider.book), headers: <String, String>{
-        "Content-Type": "application/json; charset=UTF-8",
-      });
+      final res = await http.get(
+        Uri.parse(DataProvider.book),
+      );
 
       if (res.statusCode == 200) {
         return HTTPListConverter.parseBookings(res.body);
@@ -248,9 +224,6 @@ class HTTPServices {
           Uri.parse(
             DataProvider.book,
           ),
-          headers: <String, String>{
-            "Content-Type": "application/json; charset=UTF-8",
-          },
           body: bookingUpdate.toJson());
       if (res.statusCode == 200) {
         return Booking.fromJson(res.body);

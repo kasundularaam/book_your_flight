@@ -19,12 +19,13 @@ class _DateViewState extends State<DateView> {
   pickDate() async {
     DateTime newDate = (await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
+      initialDate: pickedDate,
       firstDate: DateTime(2022),
       lastDate: DateTime(2024),
     ))!;
     setState(() {
       pickedDate = newDate;
+      widget.datePicked(newDate);
     });
   }
 

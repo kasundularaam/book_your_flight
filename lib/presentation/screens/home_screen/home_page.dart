@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:book_your_flight/data/models/flight_params.dart';
 import 'package:book_your_flight/logic/cubit/select_class_cubit/select_class_cubit.dart';
 import 'package:book_your_flight/presentation/router/app_router.dart';
 import 'package:book_your_flight/presentation/screens/home_screen/widgets/nonstop_flight_filter_switch.dart';
@@ -11,6 +14,7 @@ import 'package:sizer/sizer.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/strings.dart';
 import '../../../logic/cubit/booking_type_cubit/booking_type_cubit.dart';
+import '../../../logic/cubit/select_city_cubit/select_place_cubit.dart';
 import 'widgets/date_view.dart';
 import 'widgets/selected_city_view.dart';
 import 'widgets/booking_type_button.dart';
@@ -23,13 +27,29 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  TextEditingController passengersController = TextEditingController();
-  TextEditingController kidsController = TextEditingController();
-  TextEditingController kgsController = TextEditingController();
+  String origin = "";
+  String destination = "";
+  String departDate = "";
+  int tripType = 1;
+  String seatClass = "";
 
-  @override
-  void dispose() {
-    super.dispose();
+  next() {
+    log(origin);
+    log(destination);
+    log(departDate);
+    log(seatClass);
+    if (origin.isEmpty) return;
+    if (destination.isEmpty) return;
+    if (departDate.isEmpty) return;
+    if (seatClass.isEmpty) return;
+
+    Navigator.pushNamed(context, AppRouter.flightListPage,
+        arguments: FlightParams(
+            origin: origin,
+            destination: destination,
+            departDate: departDate,
+            tripType: tripType,
+            seatClass: seatClass));
   }
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
@@ -219,38 +239,38 @@ class _HomePageState extends State<HomePage> {
                           return Row(
                             children: [
                               BookingTypeButton(
+                                text: "One-Way",
+                                selected: false,
+                                onTap: () =>
+                                    BlocProvider.of<BookingTypeCubit>(context)
+                                        .selectOneWay(),
+                              ),
+                              BookingTypeButton(
                                 text: "Round-Trip",
                                 selected: true,
                                 onTap: () =>
                                     BlocProvider.of<BookingTypeCubit>(context)
                                         .selectRoundTrip(),
                               ),
-                              BookingTypeButton(
-                                text: "One-Way",
-                                selected: false,
-                                onTap: () =>
-                                    BlocProvider.of<BookingTypeCubit>(context)
-                                        .selectOneWay(),
-                              )
                             ],
                           );
                         } else {
                           return Row(
                             children: [
                               BookingTypeButton(
+                                text: "One-Way",
+                                selected: true,
+                                onTap: () =>
+                                    BlocProvider.of<BookingTypeCubit>(context)
+                                        .selectOneWay(),
+                              ),
+                              BookingTypeButton(
                                 text: "Round-Trip",
                                 selected: false,
                                 onTap: () =>
                                     BlocProvider.of<BookingTypeCubit>(context)
                                         .selectRoundTrip(),
                               ),
-                              BookingTypeButton(
-                                text: "One-Way",
-                                selected: true,
-                                onTap: () =>
-                                    BlocProvider.of<BookingTypeCubit>(context)
-                                        .selectOneWay(),
-                              )
                             ],
                           );
                         }
@@ -312,10 +332,14 @@ class _HomePageState extends State<HomePage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Flexible(
+                          Flexible(
                             flex: 1,
-                            child: SelectedCityView(
-                              isFrom: true,
+                            child: BlocProvider(
+                              create: (context) => SelectPlaceCubit(),
+                              child: SelectedCityView(
+                                isFrom: true,
+                                onSelected: (place) => origin = place.code,
+                              ),
                             ),
                           ),
                           Flexible(
@@ -326,10 +350,14 @@ class _HomePageState extends State<HomePage> {
                               size: 30.sp,
                             ),
                           ),
-                          const Flexible(
+                          Flexible(
                             flex: 1,
-                            child: SelectedCityView(
-                              isFrom: false,
+                            child: BlocProvider(
+                              create: (context) => SelectPlaceCubit(),
+                              child: SelectedCityView(
+                                isFrom: false,
+                                onSelected: (place) => destination = place.code,
+                              ),
                             ),
                           )
                         ],
@@ -340,11 +368,13 @@ class _HomePageState extends State<HomePage> {
                       BlocBuilder<BookingTypeCubit, BookingTypeState>(
                         builder: (context, state) {
                           if (state is BookingTypeOneWay) {
-                            return Text(
-                              "Departure",
-                              style: TextStyle(
-                                color: AppColors.darkElv1,
-                                fontSize: 12.sp,
+                            return Center(
+                              child: Text(
+                                "Departure",
+                                style: TextStyle(
+                                  color: AppColors.darkElv1,
+                                  fontSize: 12.sp,
+                                ),
                               ),
                             );
                           } else {
@@ -383,7 +413,8 @@ class _HomePageState extends State<HomePage> {
                                 Flexible(
                                     flex: 2,
                                     child: DateView(
-                                      datePicked: (date) {},
+                                      datePicked: (date) => departDate =
+                                          "${date.day}/${date.month}/${date.year}",
                                     )),
                                 const Flexible(flex: 1, child: SizedBox()),
                               ],
@@ -411,110 +442,6 @@ class _HomePageState extends State<HomePage> {
                       SizedBox(
                         height: 4.h,
                       ),
-                      Row(
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                "Passengers",
-                                style: TextStyle(
-                                  color: AppColors.darkElv1,
-                                  fontSize: 12.sp,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Center(
-                              child: Text(
-                                "Kids",
-                                style: TextStyle(
-                                  color: AppColors.darkElv1,
-                                  fontSize: 12.sp,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Align(
-                              alignment: Alignment.centerRight,
-                              child: Text(
-                                "Kgs",
-                                style: TextStyle(
-                                  color: AppColors.darkElv1,
-                                  fontSize: 12.sp,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 2.h,
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: TextFormField(
-                                controller: passengersController,
-                                keyboardType: TextInputType.number,
-                                decoration: const InputDecoration(
-                                  suffixIcon: Icon(
-                                    Icons.person_rounded,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          const Expanded(
-                            flex: 1,
-                            child: SizedBox(),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Center(
-                              child: TextFormField(
-                                keyboardType: TextInputType.number,
-                                controller: kidsController,
-                                decoration: const InputDecoration(
-                                  suffixIcon: Icon(
-                                    Icons.child_care_rounded,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          const Expanded(
-                            flex: 1,
-                            child: SizedBox(),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Align(
-                              alignment: Alignment.centerRight,
-                              child: TextFormField(
-                                keyboardType: TextInputType.number,
-                                controller: kgsController,
-                                decoration: const InputDecoration(
-                                  suffixIcon: Icon(
-                                    Icons.shopping_bag_rounded,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 4.h,
-                      ),
                       Text(
                         "Class",
                         style: TextStyle(
@@ -528,6 +455,7 @@ class _HomePageState extends State<HomePage> {
                       BlocBuilder<SelectClassCubit, SelectClassState>(
                         builder: (context, state) {
                           if (state is SelectClassElite) {
+                            seatClass = "Elite";
                             return Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
@@ -559,6 +487,7 @@ class _HomePageState extends State<HomePage> {
                               ],
                             );
                           } else if (state is SelectClassBusiness) {
+                            seatClass = "Business";
                             return Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
@@ -590,6 +519,7 @@ class _HomePageState extends State<HomePage> {
                               ],
                             );
                           } else {
+                            seatClass = "Economy";
                             return Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
@@ -633,12 +563,7 @@ class _HomePageState extends State<HomePage> {
                         height: 4.h,
                       ),
                       Center(
-                        child: SearchFlightsButton(
-                          onPressed: () => Navigator.pushNamed(
-                            context,
-                            AppRouter.flightListPage,
-                          ),
-                        ),
+                        child: SearchFlightsButton(onPressed: () => next()),
                       ),
                       SizedBox(
                         height: 4.h,

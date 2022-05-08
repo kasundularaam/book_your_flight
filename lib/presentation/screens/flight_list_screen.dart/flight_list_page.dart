@@ -1,17 +1,27 @@
-import 'package:book_your_flight/core/constants/app_colors.dart';
-import 'package:book_your_flight/presentation/screens/flight_list_screen.dart/widgets/details_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 
+import 'package:book_your_flight/core/constants/app_colors.dart';
+import 'package:book_your_flight/data/models/flight_params.dart';
+import 'package:book_your_flight/presentation/screens/flight_list_screen.dart/widgets/details_card.dart';
+
+import '../../../logic/cubit/search_flights_cubit/search_flights_cubit.dart';
+
 class FlightListPage extends StatefulWidget {
-  const FlightListPage({Key? key}) : super(key: key);
+  final FlightParams flightParams;
+  const FlightListPage({
+    Key? key,
+    required this.flightParams,
+  }) : super(key: key);
 
   @override
   State<FlightListPage> createState() => _FlightListPageState();
 }
 
 class _FlightListPageState extends State<FlightListPage> {
+  FlightParams get flightParams => widget.flightParams;
   String dropdownValue = 'Price';
 
   var items = [
@@ -20,6 +30,8 @@ class _FlightListPageState extends State<FlightListPage> {
   ];
   @override
   Widget build(BuildContext context) {
+    BlocProvider.of<SearchFlightsCubit>(context)
+        .searchFlights(flightParams: flightParams);
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
         statusBarColor: AppColors.lightColor,
@@ -88,7 +100,7 @@ class _FlightListPageState extends State<FlightListPage> {
                           width: 3.w,
                         ),
                         Text(
-                          "Sydney- London",
+                          "${flightParams.origin} - ${flightParams.destination}",
                           style: TextStyle(
                             color: AppColors.darkElv1,
                             fontSize: 12.sp,
@@ -110,88 +122,12 @@ class _FlightListPageState extends State<FlightListPage> {
                           width: 3.w,
                         ),
                         Text(
-                          "7/06/22",
+                          flightParams.departDate,
                           style: TextStyle(
                             color: AppColors.darkElv1,
                             fontSize: 12.sp,
                           ),
                         ),
-                        SizedBox(
-                          width: 10.w,
-                        ),
-                        Icon(
-                          Icons.arrow_downward_rounded,
-                          color: AppColors.primaryColor.withOpacity(0.5),
-                          size: 20.sp,
-                        ),
-                        SizedBox(
-                          width: 3.w,
-                        ),
-                        Text(
-                          "20/06/22",
-                          style: TextStyle(
-                            color: AppColors.darkElv1,
-                            fontSize: 12.sp,
-                          ),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 1.h,
-                    ),
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.person_rounded,
-                          color: AppColors.primaryColor.withOpacity(0.5),
-                          size: 20.sp,
-                        ),
-                        SizedBox(
-                          width: 3.w,
-                        ),
-                        Text(
-                          "2",
-                          style: TextStyle(
-                            color: AppColors.darkElv1,
-                            fontSize: 12.sp,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 5.w,
-                        ),
-                        Icon(
-                          Icons.child_care_rounded,
-                          color: AppColors.primaryColor.withOpacity(0.5),
-                          size: 20.sp,
-                        ),
-                        SizedBox(
-                          width: 3.w,
-                        ),
-                        Text(
-                          "3",
-                          style: TextStyle(
-                            color: AppColors.darkElv1,
-                            fontSize: 12.sp,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 5.w,
-                        ),
-                        Icon(
-                          Icons.shopping_bag_rounded,
-                          color: AppColors.primaryColor.withOpacity(0.5),
-                          size: 20.sp,
-                        ),
-                        SizedBox(
-                          width: 3.w,
-                        ),
-                        Text(
-                          "5kg",
-                          style: TextStyle(
-                            color: AppColors.darkElv1,
-                            fontSize: 12.sp,
-                          ),
-                        )
                       ],
                     ),
                     SizedBox(
@@ -220,80 +156,103 @@ class _FlightListPageState extends State<FlightListPage> {
                 ),
               ),
               Expanded(
-                child: ListView(
-                  physics: const BouncingScrollPhysics(),
-                  padding: EdgeInsets.symmetric(horizontal: 5.w),
-                  children: [
-                    SizedBox(
-                      height: 2.h,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          "Sort by:",
-                          style: TextStyle(
-                            color: AppColors.lightColor,
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w500,
+                child: BlocConsumer<SearchFlightsCubit, SearchFlightsState>(
+                  listener: (context, state) {
+                    if (state is SearchFlightsFailed) {
+                      SnackBar snackBar =
+                          SnackBar(content: Text(state.toString()));
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    }
+                  },
+                  builder: (context, state) {
+                    if (state is SearchFlightsLoading) {
+                      return const Center(
+                        child: CircularProgressIndicator(
+                            color: AppColors.primaryColor),
+                      );
+                    }
+                    if (state is SearchFlightsLoaded) {
+                      return ListView(
+                        physics: const BouncingScrollPhysics(),
+                        padding: EdgeInsets.symmetric(horizontal: 5.w),
+                        children: [
+                          SizedBox(
+                            height: 2.h,
                           ),
-                        ),
-                        SizedBox(
-                          width: 3.w,
-                        ),
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 3.w, vertical: 0.5.h),
-                          decoration: BoxDecoration(
-                              color: AppColors.lightColor.withOpacity(0.7),
-                              borderRadius: BorderRadius.circular(2.h)),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton(
-                              isDense: true,
-                              dropdownColor: AppColors.lightColor,
-                              focusColor: AppColors.lightColor,
-                              value: dropdownValue,
-                              icon: const Icon(
-                                Icons.keyboard_arrow_down,
-                                color: AppColors.primaryColor,
+                          Row(
+                            children: [
+                              Text(
+                                "Sort by:",
+                                style: TextStyle(
+                                  color: AppColors.lightColor,
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
-                              items: items.map((String item) {
-                                return DropdownMenuItem(
-                                  value: item,
-                                  child: Text(
-                                    item,
+                              SizedBox(
+                                width: 3.w,
+                              ),
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 3.w, vertical: 0.5.h),
+                                decoration: BoxDecoration(
+                                    color:
+                                        AppColors.lightColor.withOpacity(0.7),
+                                    borderRadius: BorderRadius.circular(2.h)),
+                                child: DropdownButtonHideUnderline(
+                                  child: DropdownButton(
+                                    isDense: true,
+                                    dropdownColor: AppColors.lightColor,
+                                    focusColor: AppColors.lightColor,
+                                    value: dropdownValue,
+                                    icon: const Icon(
+                                      Icons.keyboard_arrow_down,
+                                      color: AppColors.primaryColor,
+                                    ),
+                                    items: items.map((String item) {
+                                      return DropdownMenuItem(
+                                        value: item,
+                                        child: Text(
+                                          item,
+                                        ),
+                                      );
+                                    }).toList(),
+                                    onChanged: (String? newValue) {
+                                      setState(() {
+                                        dropdownValue = newValue!;
+                                      });
+                                    },
                                   ),
-                                );
-                              }).toList(),
-                              onChanged: (String? newValue) {
-                                setState(() {
-                                  dropdownValue = newValue!;
-                                });
-                              },
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 2.h,
+                          ),
+                          Text(
+                            "${state.flights.length} Flights are available Sydney to London",
+                            style: TextStyle(
+                              color: AppColors.lightColor,
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 2.h,
-                    ),
-                    Text(
-                      "15 Flights are available Sydney to London",
-                      style: TextStyle(
-                        color: AppColors.lightColor,
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 2.h,
-                    ),
-                    ListView.builder(
-                        physics: const BouncingScrollPhysics(),
-                        itemCount: 5,
-                        shrinkWrap: true,
-                        itemBuilder: ((context, index) => const DetailsCard()))
-                  ],
+                          SizedBox(
+                            height: 2.h,
+                          ),
+                          ListView.builder(
+                            physics: const BouncingScrollPhysics(),
+                            itemCount: state.flights.length,
+                            shrinkWrap: true,
+                            itemBuilder: ((context, index) =>
+                                DetailsCard(flight: state.flights[index])),
+                          ),
+                        ],
+                      );
+                    }
+                    return const SizedBox();
+                  },
                 ),
               )
             ],

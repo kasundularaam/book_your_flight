@@ -1,3 +1,8 @@
+import 'package:book_your_flight/data/models/flight_params.dart';
+import 'package:book_your_flight/logic/cubit/landing_cubit/landing_cubit.dart';
+import 'package:book_your_flight/logic/cubit/login_cubit/login_cubit.dart';
+import 'package:book_your_flight/logic/cubit/register_cubit/register_cubit.dart';
+import 'package:book_your_flight/logic/cubit/search_flights_cubit/search_flights_cubit.dart';
 import 'package:book_your_flight/presentation/screens/checkout_screen/checkout_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,7 +32,10 @@ class AppRouter {
     switch (settings.name) {
       case landingPage:
         return MaterialPageRoute(
-          builder: (_) => const LandingPage(),
+          builder: (_) => BlocProvider(
+            create: (context) => LandingCubit(),
+            child: const LandingPage(),
+          ),
         );
       case homePage:
         return MaterialPageRoute(
@@ -45,15 +53,27 @@ class AppRouter {
         );
       case loginPage:
         return MaterialPageRoute(
-          builder: (_) => const LoginPage(),
+          builder: (_) => BlocProvider(
+            create: (context) => LoginCubit(),
+            child: const LoginPage(),
+          ),
         );
       case signupPage:
         return MaterialPageRoute(
-          builder: (_) => const SignupPage(),
+          builder: (_) => BlocProvider(
+            create: (context) => RegisterCubit(),
+            child: const SignupPage(),
+          ),
         );
       case flightListPage:
+        final FlightParams flightParams = settings.arguments as FlightParams;
         return MaterialPageRoute(
-          builder: (_) => const FlightListPage(),
+          builder: (_) => BlocProvider(
+            create: (context) => SearchFlightsCubit(),
+            child: FlightListPage(
+              flightParams: flightParams,
+            ),
+          ),
         );
       case flightDetailsPage:
         return MaterialPageRoute(

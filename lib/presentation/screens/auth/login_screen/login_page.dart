@@ -1,9 +1,11 @@
 import 'package:book_your_flight/core/constants/app_colors.dart';
 import 'package:book_your_flight/core/constants/strings.dart';
+import 'package:book_your_flight/logic/cubit/login_cubit/login_cubit.dart';
 import 'package:book_your_flight/presentation/screens/auth/widgets/auth_button.dart';
 import 'package:book_your_flight/presentation/screens/auth/widgets/auth_text_input.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../router/app_router.dart';
@@ -18,6 +20,15 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  login() {
+    String username = emailController.text;
+    String password = passwordController.text;
+    if (username.isNotEmpty && password.isNotEmpty) {
+      BlocProvider.of<LoginCubit>(context)
+          .login(username: username, password: password);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -94,10 +105,29 @@ class _LoginPageState extends State<LoginPage> {
                 height: 5.h,
               ),
               Center(
-                child: AuthButton(
-                  text: "LOGIN",
-                  onPress: () => Navigator.of(context).pushNamedAndRemoveUntil(
-                      AppRouter.homePage, (route) => false),
+                child: BlocConsumer<LoginCubit, LoginState>(
+                  listener: (context, state) {
+                    if (state is LoginFailed) {
+                      SnackBar snackBar =
+                          SnackBar(content: Text(state.toString()));
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    }
+                    if (state is LoginSucceed) {
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                          AppRouter.landingPage, (route) => false);
+                    }
+                  },
+                  builder: (context, state) {
+                    if (state is LoginLoading) {
+                      return const CircularProgressIndicator(
+                        color: AppColors.primaryColor,
+                      );
+                    }
+                    return AuthButton(
+                      text: "LOGIN",
+                      onPress: () => login(),
+                    );
+                  },
                 ),
               ),
               SizedBox(

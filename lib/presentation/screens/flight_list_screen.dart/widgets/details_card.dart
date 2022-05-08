@@ -1,10 +1,16 @@
-import 'package:book_your_flight/core/constants/app_colors.dart';
-import 'package:book_your_flight/presentation/router/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
+import 'package:book_your_flight/core/constants/app_colors.dart';
+import 'package:book_your_flight/data/models/flight.dart';
+import 'package:book_your_flight/presentation/router/app_router.dart';
+
 class DetailsCard extends StatefulWidget {
-  const DetailsCard({Key? key}) : super(key: key);
+  final Flight flight;
+  const DetailsCard({
+    Key? key,
+    required this.flight,
+  }) : super(key: key);
 
   @override
   State<DetailsCard> createState() => _DetailsCardState();

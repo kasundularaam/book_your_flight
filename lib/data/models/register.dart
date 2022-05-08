@@ -1,11 +1,13 @@
 import 'dart:convert';
 
 class Register {
+  final String username;
   final String first_name;
   final String last_name;
   final String email;
   final String password;
   Register({
+    required this.username,
     required this.first_name,
     required this.last_name,
     required this.email,
@@ -13,12 +15,14 @@ class Register {
   });
 
   Register copyWith({
+    String? username,
     String? first_name,
     String? last_name,
     String? email,
     String? password,
   }) {
     return Register(
+      username: username ?? this.username,
       first_name: first_name ?? this.first_name,
       last_name: last_name ?? this.last_name,
       email: email ?? this.email,
@@ -28,6 +32,7 @@ class Register {
 
   Map<String, dynamic> toMap() {
     return {
+      'username': username,
       'first_name': first_name,
       'last_name': last_name,
       'email': email,
@@ -37,6 +42,7 @@ class Register {
 
   factory Register.fromMap(Map<String, dynamic> map) {
     return Register(
+      username: map['username'] ?? '',
       first_name: map['first_name'] ?? '',
       last_name: map['last_name'] ?? '',
       email: map['email'] ?? '',
@@ -51,7 +57,7 @@ class Register {
 
   @override
   String toString() {
-    return 'Register(first_name: $first_name, last_name: $last_name, email: $email, password: $password)';
+    return 'Register(username: $username, first_name: $first_name, last_name: $last_name, email: $email, password: $password)';
   }
 
   @override
@@ -59,6 +65,7 @@ class Register {
     if (identical(this, other)) return true;
 
     return other is Register &&
+        other.username == username &&
         other.first_name == first_name &&
         other.last_name == last_name &&
         other.email == email &&
@@ -67,7 +74,8 @@ class Register {
 
   @override
   int get hashCode {
-    return first_name.hashCode ^
+    return username.hashCode ^
+        first_name.hashCode ^
         last_name.hashCode ^
         email.hashCode ^
         password.hashCode;
