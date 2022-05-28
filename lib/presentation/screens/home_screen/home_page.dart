@@ -414,7 +414,7 @@ class _HomePageState extends State<HomePage> {
                                     flex: 2,
                                     child: DateView(
                                       datePicked: (date) => departDate =
-                                          "${date.day}/${date.month}/${date.year}",
+                                          "${date.year}-${date.month}-${date.day}",
                                     )),
                                 const Flexible(flex: 1, child: SizedBox()),
                               ],
@@ -455,13 +455,13 @@ class _HomePageState extends State<HomePage> {
                       BlocBuilder<SelectClassCubit, SelectClassState>(
                         builder: (context, state) {
                           if (state is SelectClassElite) {
-                            seatClass = "Elite";
+                            seatClass = "first";
                             return Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 SelectClassButton(
                                   isSelected: false,
-                                  text: "Economy",
+                                  text: "economy",
                                   icon:
                                       Icons.airline_seat_recline_normal_rounded,
                                   onSelected: () =>
@@ -470,7 +470,7 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 SelectClassButton(
                                   isSelected: false,
-                                  text: "Business",
+                                  text: "business",
                                   icon: Icons.person,
                                   onSelected: () =>
                                       BlocProvider.of<SelectClassCubit>(context)
@@ -478,7 +478,7 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 SelectClassButton(
                                   isSelected: true,
-                                  text: "Elite",
+                                  text: "first",
                                   icon: Icons.person,
                                   onSelected: () =>
                                       BlocProvider.of<SelectClassCubit>(context)
@@ -487,13 +487,13 @@ class _HomePageState extends State<HomePage> {
                               ],
                             );
                           } else if (state is SelectClassBusiness) {
-                            seatClass = "Business";
+                            seatClass = "business";
                             return Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 SelectClassButton(
                                   isSelected: false,
-                                  text: "Economy",
+                                  text: "economy",
                                   icon:
                                       Icons.airline_seat_recline_normal_rounded,
                                   onSelected: () =>
@@ -502,7 +502,7 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 SelectClassButton(
                                   isSelected: true,
-                                  text: "Business",
+                                  text: "business",
                                   icon: Icons.person,
                                   onSelected: () =>
                                       BlocProvider.of<SelectClassCubit>(context)
@@ -510,7 +510,7 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 SelectClassButton(
                                   isSelected: false,
-                                  text: "Elite",
+                                  text: "first",
                                   icon: Icons.person,
                                   onSelected: () =>
                                       BlocProvider.of<SelectClassCubit>(context)
@@ -519,13 +519,13 @@ class _HomePageState extends State<HomePage> {
                               ],
                             );
                           } else {
-                            seatClass = "Economy";
+                            seatClass = "economy";
                             return Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 SelectClassButton(
                                   isSelected: true,
-                                  text: "Economy",
+                                  text: "economy",
                                   icon:
                                       Icons.airline_seat_recline_normal_rounded,
                                   onSelected: () =>
@@ -534,7 +534,7 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 SelectClassButton(
                                   isSelected: false,
-                                  text: "Business",
+                                  text: "business",
                                   icon: Icons.person,
                                   onSelected: () =>
                                       BlocProvider.of<SelectClassCubit>(context)
@@ -542,7 +542,7 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 SelectClassButton(
                                   isSelected: false,
-                                  text: "Elite",
+                                  text: "first",
                                   icon: Icons.person,
                                   onSelected: () =>
                                       BlocProvider.of<SelectClassCubit>(context)

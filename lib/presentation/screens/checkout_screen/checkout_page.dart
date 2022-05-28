@@ -1,3 +1,5 @@
+import 'package:book_your_flight/presentation/router/app_router.dart';
+import 'package:book_your_flight/presentation/screens/auth/widgets/auth_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_credit_card/credit_card_form.dart';
@@ -64,11 +66,11 @@ class _CheckoutPageState extends State<CheckoutPage> {
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
-        statusBarColor: AppColors.lightColor,
+        statusBarColor: AppColors.primaryColor,
         statusBarIconBrightness: Brightness.light,
       ),
       child: Scaffold(
-        backgroundColor: AppColors.lightColor,
+        backgroundColor: AppColors.primaryColor,
         body: SafeArea(
             child: Column(
           children: [
@@ -84,7 +86,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   onTap: () => Navigator.pop(context),
                   child: Icon(
                     Icons.arrow_back_ios_rounded,
-                    color: AppColors.primaryColor,
+                    color: AppColors.lightColor,
                     size: 20.sp,
                   ),
                 ),
@@ -94,7 +96,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 Text(
                   "Checkout",
                   style: TextStyle(
-                      color: AppColors.primaryColor,
+                      color: AppColors.lightColor,
                       fontSize: 18.sp,
                       fontWeight: FontWeight.bold),
                 ),
@@ -108,7 +110,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 width: 100.w,
                 padding: EdgeInsets.symmetric(horizontal: 5.w),
                 decoration: BoxDecoration(
-                  color: AppColors.primaryColor,
+                  color: AppColors.lightColor,
                   borderRadius:
                       BorderRadius.vertical(top: Radius.circular(5.w)),
                   boxShadow: [
@@ -176,27 +178,14 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       expiryDate: '',
                       themeColor: AppColors.lightColor,
                     ),
-                    TextButton(
-                      child: Container(
-                        margin: const EdgeInsets.all(8),
-                        child: const Text(
-                          'Validate',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                          ),
-                        ),
-                      ),
-                      onPressed: () {
-                        if (formKey.currentState!.validate()) {
-                          print('valid!');
-                          showValidDialog(context, "Valid",
-                              "Your card successfully valid !!!");
-                        } else {
-                          print('invalid!');
-                        }
-                      },
-                    )
+                    SizedBox(
+                      height: 3.h,
+                    ),
+                    Center(
+                        child: AuthButton(
+                            text: "Pay",
+                            onPress: () => Navigator.of(context)
+                                .pushNamed(AppRouter.mapPage))),
                   ],
                 ),
               ),

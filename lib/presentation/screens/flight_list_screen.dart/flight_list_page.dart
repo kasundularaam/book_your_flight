@@ -159,6 +159,7 @@ class _FlightListPageState extends State<FlightListPage> {
                 child: BlocConsumer<SearchFlightsCubit, SearchFlightsState>(
                   listener: (context, state) {
                     if (state is SearchFlightsFailed) {
+                      // log(state.errorMsg);
                       SnackBar snackBar =
                           SnackBar(content: Text(state.toString()));
                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -168,7 +169,7 @@ class _FlightListPageState extends State<FlightListPage> {
                     if (state is SearchFlightsLoading) {
                       return const Center(
                         child: CircularProgressIndicator(
-                            color: AppColors.primaryColor),
+                            color: AppColors.lightColor),
                       );
                     }
                     if (state is SearchFlightsLoaded) {
@@ -231,7 +232,7 @@ class _FlightListPageState extends State<FlightListPage> {
                             height: 2.h,
                           ),
                           Text(
-                            "${state.flights.length} Flights are available Sydney to London",
+                            "${state.flights.length} Flights are available ${flightParams.origin} to ${flightParams.destination}",
                             style: TextStyle(
                               color: AppColors.lightColor,
                               fontSize: 12.sp,

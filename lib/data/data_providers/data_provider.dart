@@ -8,7 +8,7 @@ class DataProvider {
   static String get places => "$baseUrl/place";
   static String getPlaceById(int id) => "$baseUrl/place/$id";
   static String flight(FlightParams flight) =>
-      "$baseUrl/flight?Origin=${flight.origin}&Destination=${flight.destination}&DepartDate=${flight.departDate}&TripType=${flight.seatClass}&SeatClass=${flight.seatClass}";
+      "$baseUrl/flight?Origin=${flight.origin}&Destination=${flight.destination}&DepartDate=${flight.departDate}&TripType=1&SeatClass=${flight.seatClass}";
   static String getFlightById(int id) => "$baseUrl/flight/$id";
   static String get passenger => "$baseUrl/passenger";
   static String get book => "$baseUrl/flight/ticket/book";

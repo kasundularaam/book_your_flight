@@ -17,6 +17,7 @@ class DetailsCard extends StatefulWidget {
 }
 
 class _DetailsCardState extends State<DetailsCard> {
+  Flight get flight => widget.flight;
   Widget buildDivider() {
     List<Widget> itemList = [];
     const int itemCount = 31;

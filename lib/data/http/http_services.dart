@@ -115,7 +115,8 @@ class HTTPServices {
       final res = await http.get(
         Uri.parse(DataProvider.flight(flightParams)),
       );
-
+      log(res.body);
+      log(DataProvider.flight(flightParams));
       if (res.statusCode == 200) {
         return HTTPListConverter.parseFlights(res.body);
       } else {
