@@ -1,9 +1,12 @@
+import 'package:book_your_flight/logic/cubit/get_place_cubit/get_place_cubit.dart';
+import 'package:book_your_flight/presentation/screens/flight_list_screen.dart/widgets/city_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 
-import 'package:book_your_flight/core/constants/app_colors.dart';
-import 'package:book_your_flight/data/models/flight.dart';
-import 'package:book_your_flight/presentation/router/app_router.dart';
+import '../../../../core/constants/app_colors.dart';
+import '../../../../data/models/flight.dart';
+import '../../../router/app_router.dart';
 
 class DetailsCard extends StatefulWidget {
   final Flight flight;
@@ -74,48 +77,16 @@ class _DetailsCardState extends State<DetailsCard> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Sydney",
-                          style: TextStyle(
-                            color: AppColors.primaryColor,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          "(SYD)",
-                          style: TextStyle(
-                            color: AppColors.primaryColor,
-                            fontSize: 12.sp,
-                          ),
-                        ),
-                      ],
+                    BlocProvider(
+                      create: (context) => GetPlaceCubit(),
+                      child: CityView(id: flight.origin),
                     ),
                     SizedBox(
                       height: 1.h,
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(
-                          "London",
-                          style: TextStyle(
-                            color: AppColors.primaryColor,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          "(LCY)",
-                          style: TextStyle(
-                            color: AppColors.primaryColor,
-                            fontSize: 12.sp,
-                          ),
-                        ),
-                      ],
+                    BlocProvider(
+                      create: (context) => GetPlaceCubit(),
+                      child: CityView(id: flight.destination),
                     ),
                   ],
                 ),

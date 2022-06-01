@@ -1,9 +1,10 @@
-import 'package:book_your_flight/core/constants/strings.dart';
-import 'package:book_your_flight/logic/cubit/landing_cubit/landing_cubit.dart';
-import 'package:book_your_flight/presentation/router/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
+
+import '../../../../core/constants/strings.dart';
+import '../../../../logic/cubit/landing_cubit/landing_cubit.dart';
+import '../../../router/app_router.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({Key? key}) : super(key: key);
@@ -13,23 +14,19 @@ class LandingPage extends StatefulWidget {
 }
 
 class _LandingPageState extends State<LandingPage> {
-  static const Duration duration = Duration(seconds: 2);
-  void goToHome() =>
-      Future.delayed(duration).then((value) => Navigator.of(context)
-          .pushNamedAndRemoveUntil(AppRouter.homePage, (route) => false));
-  void goToAuth() =>
-      Future.delayed(duration).then((value) => Navigator.of(context)
-          .pushNamedAndRemoveUntil(AppRouter.loginPage, (route) => false));
   @override
   Widget build(BuildContext context) {
     BlocProvider.of<LandingCubit>(context).loadApp();
     return BlocListener<LandingCubit, LandingState>(
       listener: (context, state) {
         if (state is LandingToAuth) {
-          goToAuth();
+          Navigator.of(context)
+              .pushNamedAndRemoveUntil(AppRouter.loginPage, (route) => false);
         }
         if (state is LandingToHome) {
-          goToHome();
+          Navigator.of(context).pushNamedAndRemoveUntil(
+              AppRouter.homePage, (route) => false,
+              arguments: state.user);
         }
         if (state is LandingFailed) {
           SnackBar snackBar = SnackBar(content: Text(state.toString()));

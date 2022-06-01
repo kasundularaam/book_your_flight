@@ -7,7 +7,25 @@ class LandingInitial extends LandingState {}
 
 class LandingLoading extends LandingState {}
 
-class LandingToHome extends LandingState {}
+class LandingToHome extends LandingState {
+  final BYFUser user;
+  LandingToHome({
+    required this.user,
+  });
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is LandingToHome && other.user == user;
+  }
+
+  @override
+  int get hashCode => user.hashCode;
+
+  @override
+  String toString() => 'LandingToHome(user: $user)';
+}
 
 class LandingToAuth extends LandingState {}
 

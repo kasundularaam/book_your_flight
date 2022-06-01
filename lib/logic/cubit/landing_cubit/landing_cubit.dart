@@ -1,6 +1,9 @@
 import 'package:bloc/bloc.dart';
-import 'package:book_your_flight/data/shared/shred_services.dart';
 import 'package:meta/meta.dart';
+
+import '../../../data/http/http_services.dart';
+import '../../../data/models/byf_user.dart';
+import '../../../data/shared/shred_services.dart';
 
 part 'landing_state.dart';
 
@@ -12,7 +15,10 @@ class LandingCubit extends Cubit<LandingState> {
       emit(LandingLoading());
       bool isUserIn = await SharedServices.isUserIn();
       if (isUserIn) {
-        emit(LandingToHome());
+        final int id = await SharedServices.getUid();
+
+        final BYFUser user = await HTTPServices.getUserById(id: id);
+        emit(LandingToHome(user: user));
       } else {
         emit(LandingToAuth());
       }

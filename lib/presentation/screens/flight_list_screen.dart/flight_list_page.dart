@@ -1,13 +1,13 @@
+import 'package:book_your_flight/logic/cubit/get_place_cubit/get_place_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 
-import 'package:book_your_flight/core/constants/app_colors.dart';
-import 'package:book_your_flight/data/models/flight_params.dart';
-import 'package:book_your_flight/presentation/screens/flight_list_screen.dart/widgets/details_card.dart';
-
+import '../../../core/constants/app_colors.dart';
+import '../../../data/models/flight_params.dart';
 import '../../../logic/cubit/search_flights_cubit/search_flights_cubit.dart';
+import 'widgets/details_card.dart';
 
 class FlightListPage extends StatefulWidget {
   final FlightParams flightParams;
@@ -246,8 +246,11 @@ class _FlightListPageState extends State<FlightListPage> {
                             physics: const BouncingScrollPhysics(),
                             itemCount: state.flights.length,
                             shrinkWrap: true,
-                            itemBuilder: ((context, index) =>
-                                DetailsCard(flight: state.flights[index])),
+                            itemBuilder: ((context, index) => BlocProvider(
+                                  create: (context) => GetPlaceCubit(),
+                                  child:
+                                      DetailsCard(flight: state.flights[index]),
+                                )),
                           ),
                         ],
                       );

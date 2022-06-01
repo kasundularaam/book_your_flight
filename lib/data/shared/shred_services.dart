@@ -1,13 +1,11 @@
-import 'dart:developer';
-
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedServices {
   static const String uidKey = "uid";
 
-  static Future<String> getUid() async {
+  static Future<int> getUid() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    String uid = preferences.getString(uidKey) ?? "";
+    int uid = preferences.getInt(uidKey) ?? -1;
     return uid;
   }
 
