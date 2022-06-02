@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
@@ -54,7 +52,6 @@ class _DetailsCardState extends State<DetailsCard> {
   }
 
   double getPrice() {
-    log(seatClass);
     if (seatClass == "economy") {
       return flight.economy_fare;
     }
@@ -73,7 +70,7 @@ class _DetailsCardState extends State<DetailsCard> {
       children: [
         InkWell(
           onTap: () => Navigator.pushNamed(context, AppRouter.flightDetailsPage,
-              arguments: flight),
+              arguments: {"flight": flight, "seatClass": seatClass}),
           child: Container(
             padding: EdgeInsets.all(5.w),
             decoration: BoxDecoration(

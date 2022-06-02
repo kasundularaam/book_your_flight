@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:book_your_flight/data/models/new_passenger.dart';
 import 'package:http/http.dart' as http;
 
 import '../../core/converters/http_list_converter.dart';
@@ -41,7 +42,6 @@ class HTTPServices {
             DataProvider.userRegister,
           ),
           body: register.toMap());
-      log(res.body);
       if (res.statusCode == 200) {
         Map<String, dynamic> map = jsonDecode(res.body);
         if (map["status"] == "Error") {
@@ -115,8 +115,6 @@ class HTTPServices {
       final res = await http.get(
         Uri.parse(DataProvider.flight(flightParams)),
       );
-      log(res.body);
-      log(DataProvider.flight(flightParams));
       if (res.statusCode == 200) {
         return HTTPListConverter.parseFlights(res.body);
       } else {
@@ -162,19 +160,14 @@ class HTTPServices {
   }
 
   static Future<Passenger> addPassenger(
-      {required String first_name,
-      required String last_name,
-      required String gender}) async {
+      {required NewPassenger newPassenger}) async {
     try {
       final res = await http.post(
           Uri.parse(
-            DataProvider.userLogin,
+            DataProvider.passenger,
           ),
-          body: {
-            "first_name": first_name,
-            "last_name": last_name,
-            "gender": gender
-          });
+          body: newPassenger.toMap());
+      log(res.body);
       if (res.statusCode == 200) {
         return Passenger.fromJson(res.body);
       } else {
