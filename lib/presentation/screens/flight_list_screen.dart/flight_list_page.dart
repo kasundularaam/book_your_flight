@@ -1,4 +1,5 @@
-import 'package:book_your_flight/logic/cubit/get_place_cubit/get_place_cubit.dart';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,6 +7,7 @@ import 'package:sizer/sizer.dart';
 
 import '../../../core/constants/app_colors.dart';
 import '../../../data/models/flight_params.dart';
+import '../../../logic/cubit/get_place_cubit/get_place_cubit.dart';
 import '../../../logic/cubit/search_flights_cubit/search_flights_cubit.dart';
 import 'widgets/details_card.dart';
 
@@ -144,7 +146,7 @@ class _FlightListPageState extends State<FlightListPage> {
                           width: 3.w,
                         ),
                         Text(
-                          "Economy",
+                          flightParams.seatClass,
                           style: TextStyle(
                             color: AppColors.darkElv1,
                             fontSize: 12.sp,
@@ -159,7 +161,6 @@ class _FlightListPageState extends State<FlightListPage> {
                 child: BlocConsumer<SearchFlightsCubit, SearchFlightsState>(
                   listener: (context, state) {
                     if (state is SearchFlightsFailed) {
-                      // log(state.errorMsg);
                       SnackBar snackBar =
                           SnackBar(content: Text(state.toString()));
                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -248,8 +249,9 @@ class _FlightListPageState extends State<FlightListPage> {
                             shrinkWrap: true,
                             itemBuilder: ((context, index) => BlocProvider(
                                   create: (context) => GetPlaceCubit(),
-                                  child:
-                                      DetailsCard(flight: state.flights[index]),
+                                  child: DetailsCard(
+                                      flight: state.flights[index],
+                                      seatClass: flightParams.seatClass),
                                 )),
                           ),
                         ],

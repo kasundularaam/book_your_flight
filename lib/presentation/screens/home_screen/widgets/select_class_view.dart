@@ -13,38 +13,20 @@ class SelectClassView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SelectClassCubit, SelectClassState>(
-      builder: (context, state) {
+    return BlocConsumer<SelectClassCubit, SelectClassState>(
+      listener: (context, state) {
         if (state is SelectClassElite) {
           onSelect("first");
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              SelectClassButton(
-                isSelected: false,
-                text: "economy",
-                icon: Icons.airline_seat_recline_normal_rounded,
-                onSelected: () => BlocProvider.of<SelectClassCubit>(context)
-                    .selectClassEconomy(),
-              ),
-              SelectClassButton(
-                isSelected: false,
-                text: "business",
-                icon: Icons.person,
-                onSelected: () => BlocProvider.of<SelectClassCubit>(context)
-                    .selectClassBusiness(),
-              ),
-              SelectClassButton(
-                isSelected: true,
-                text: "first",
-                icon: Icons.person,
-                onSelected: () => BlocProvider.of<SelectClassCubit>(context)
-                    .selectClassElite(),
-              ),
-            ],
-          );
-        } else if (state is SelectClassBusiness) {
+        }
+        if (state is SelectClassBusiness) {
           onSelect("business");
+        }
+        if (state is SelectClassEconomy) {
+          onSelect("economy");
+        }
+      },
+      builder: (context, state) {
+        if (state is SelectClassElite) {
           return Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -56,14 +38,14 @@ class SelectClassView extends StatelessWidget {
                     .selectClassEconomy(),
               ),
               SelectClassButton(
-                isSelected: true,
+                isSelected: false,
                 text: "business",
                 icon: Icons.person,
                 onSelected: () => BlocProvider.of<SelectClassCubit>(context)
                     .selectClassBusiness(),
               ),
               SelectClassButton(
-                isSelected: false,
+                isSelected: true,
                 text: "first",
                 icon: Icons.person,
                 onSelected: () => BlocProvider.of<SelectClassCubit>(context)
@@ -71,20 +53,20 @@ class SelectClassView extends StatelessWidget {
               ),
             ],
           );
-        } else {
-          onSelect("economy");
+        }
+        if (state is SelectClassBusiness) {
           return Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               SelectClassButton(
-                isSelected: true,
+                isSelected: false,
                 text: "economy",
                 icon: Icons.airline_seat_recline_normal_rounded,
                 onSelected: () => BlocProvider.of<SelectClassCubit>(context)
                     .selectClassEconomy(),
               ),
               SelectClassButton(
-                isSelected: false,
+                isSelected: true,
                 text: "business",
                 icon: Icons.person,
                 onSelected: () => BlocProvider.of<SelectClassCubit>(context)
@@ -100,6 +82,32 @@ class SelectClassView extends StatelessWidget {
             ],
           );
         }
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            SelectClassButton(
+              isSelected: true,
+              text: "economy",
+              icon: Icons.airline_seat_recline_normal_rounded,
+              onSelected: () => BlocProvider.of<SelectClassCubit>(context)
+                  .selectClassEconomy(),
+            ),
+            SelectClassButton(
+              isSelected: false,
+              text: "business",
+              icon: Icons.person,
+              onSelected: () => BlocProvider.of<SelectClassCubit>(context)
+                  .selectClassBusiness(),
+            ),
+            SelectClassButton(
+              isSelected: false,
+              text: "first",
+              icon: Icons.person,
+              onSelected: () =>
+                  BlocProvider.of<SelectClassCubit>(context).selectClassElite(),
+            ),
+          ],
+        );
       },
     );
   }

@@ -1,18 +1,22 @@
-import 'package:book_your_flight/logic/cubit/get_place_cubit/get_place_cubit.dart';
-import 'package:book_your_flight/presentation/screens/flight_list_screen.dart/widgets/city_view.dart';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../core/constants/app_colors.dart';
 import '../../../../data/models/flight.dart';
+import '../../../../logic/cubit/get_place_cubit/get_place_cubit.dart';
 import '../../../router/app_router.dart';
+import 'city_view.dart';
 
 class DetailsCard extends StatefulWidget {
   final Flight flight;
+  final String seatClass;
   const DetailsCard({
     Key? key,
     required this.flight,
+    required this.seatClass,
   }) : super(key: key);
 
   @override
@@ -21,6 +25,7 @@ class DetailsCard extends StatefulWidget {
 
 class _DetailsCardState extends State<DetailsCard> {
   Flight get flight => widget.flight;
+  String get seatClass => widget.seatClass;
   Widget buildDivider() {
     List<Widget> itemList = [];
     const int itemCount = 31;
@@ -48,13 +53,27 @@ class _DetailsCardState extends State<DetailsCard> {
     return divider;
   }
 
+  double getPrice() {
+    log(seatClass);
+    if (seatClass == "economy") {
+      return flight.economy_fare;
+    }
+    if (seatClass == "business") {
+      return flight.business_fare;
+    }
+    if (seatClass == "first") {
+      return flight.first_fare;
+    }
+    return 0.00;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         InkWell(
-          onTap: () =>
-              Navigator.pushNamed(context, AppRouter.flightDetailsPage),
+          onTap: () => Navigator.pushNamed(context, AppRouter.flightDetailsPage,
+              arguments: flight),
           child: Container(
             padding: EdgeInsets.all(5.w),
             decoration: BoxDecoration(
@@ -96,24 +115,12 @@ class _DetailsCardState extends State<DetailsCard> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "09:45 PM",
-                          style: TextStyle(
-                            color: AppColors.darkElv0,
-                            fontSize: 16.sp,
-                          ),
-                        ),
-                        Text(
-                          "tue, 7 jun",
-                          style: TextStyle(
-                            color: AppColors.darkElv1,
-                            fontSize: 12.sp,
-                          ),
-                        ),
-                      ],
+                    Text(
+                      flight.depart_time,
+                      style: TextStyle(
+                        color: AppColors.darkElv0,
+                        fontSize: 16.sp,
+                      ),
                     ),
                     SizedBox(
                       width: 5.w,
@@ -122,7 +129,7 @@ class _DetailsCardState extends State<DetailsCard> {
                       child: Column(
                         children: [
                           Text(
-                            "25h 15m",
+                            flight.duration,
                             style: TextStyle(
                               color: AppColors.darkElv1,
                               fontSize: 12.sp,
@@ -151,171 +158,12 @@ class _DetailsCardState extends State<DetailsCard> {
                     SizedBox(
                       width: 5.w,
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(
-                          "12:00 PM",
-                          style: TextStyle(
-                            color: AppColors.darkElv0,
-                            fontSize: 16.sp,
-                          ),
-                        ),
-                        Text(
-                          "wed, 8 jun",
-                          style: TextStyle(
-                            color: AppColors.darkElv1,
-                            fontSize: 12.sp,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 2.h,
-                ),
-                buildDivider(),
-                SizedBox(
-                  height: 2.h,
-                ),
-                Text(
-                  "Return:",
-                  style: TextStyle(
-                    color: AppColors.darkElv1,
-                    fontSize: 12.sp,
-                  ),
-                ),
-                SizedBox(
-                  height: 1.h,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "London",
-                          style: TextStyle(
-                            color: AppColors.primaryColor,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          "(LCY)",
-                          style: TextStyle(
-                            color: AppColors.primaryColor,
-                            fontSize: 12.sp,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 1.h,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(
-                          "Sydney",
-                          style: TextStyle(
-                            color: AppColors.primaryColor,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          "(SYD)",
-                          style: TextStyle(
-                            color: AppColors.primaryColor,
-                            fontSize: 12.sp,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 2.h,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "08:45 PM",
-                          style: TextStyle(
-                            color: AppColors.darkElv0,
-                            fontSize: 16.sp,
-                          ),
-                        ),
-                        Text(
-                          "Sun, 20 jun",
-                          style: TextStyle(
-                            color: AppColors.darkElv1,
-                            fontSize: 12.sp,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      width: 5.w,
-                    ),
-                    Expanded(
-                      child: Column(
-                        children: [
-                          Text(
-                            "25h 15m",
-                            style: TextStyle(
-                              color: AppColors.darkElv1,
-                              fontSize: 12.sp,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 0.5.h,
-                          ),
-                          Container(
-                            height: 0.1.h,
-                            color: AppColors.darkElv0,
-                          ),
-                          SizedBox(
-                            height: 0.5.h,
-                          ),
-                          Text(
-                            "1 Stop",
-                            style: TextStyle(
-                              color: AppColors.darkElv1,
-                              fontSize: 10.sp,
-                            ),
-                          ),
-                        ],
+                    Text(
+                      flight.arrival_time,
+                      style: TextStyle(
+                        color: AppColors.darkElv0,
+                        fontSize: 16.sp,
                       ),
-                    ),
-                    SizedBox(
-                      width: 5.w,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(
-                          "11:00 PM",
-                          style: TextStyle(
-                            color: AppColors.darkElv0,
-                            fontSize: 16.sp,
-                          ),
-                        ),
-                        Text(
-                          "mon, 21 jun",
-                          style: TextStyle(
-                            color: AppColors.darkElv1,
-                            fontSize: 12.sp,
-                          ),
-                        ),
-                      ],
                     ),
                   ],
                 ),
@@ -335,7 +183,7 @@ class _DetailsCardState extends State<DetailsCard> {
                       fit: BoxFit.fitHeight,
                     ),
                     Text(
-                      "\$780",
+                      "\$${getPrice()}",
                       style: TextStyle(
                         color: AppColors.primaryColor,
                         fontSize: 24.sp,

@@ -1,27 +1,30 @@
-import 'package:book_your_flight/core/constants/app_colors.dart';
-import 'package:book_your_flight/presentation/router/app_router.dart';
-import 'package:book_your_flight/presentation/screens/flight_details_screen/widgets/checkout_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 
+import 'package:book_your_flight/data/models/flight.dart';
+
+import '../../../core/constants/app_colors.dart';
+import '../../../logic/cubit/get_place_cubit/get_place_cubit.dart';
+import '../../router/app_router.dart';
+import 'widgets/checkout_button.dart';
+import 'widgets/city_view.dart';
+
 class FlightDetailsPage extends StatefulWidget {
-  const FlightDetailsPage({Key? key}) : super(key: key);
+  final Flight flight;
+  const FlightDetailsPage({
+    Key? key,
+    required this.flight,
+  }) : super(key: key);
 
   @override
   State<FlightDetailsPage> createState() => _FlightDetailsPageState();
 }
 
 class _FlightDetailsPageState extends State<FlightDetailsPage> {
-  List<Map<String, String>> dataList = [
-    {"key": "From", "value": "Sydney (SYD)"},
-    {"key": "To", "value": "London (LCY)"},
-    {"key": "Depart", "value": "09:45 PM"},
-    {"key": "Date", "value": "7/06/22"},
-    {"key": "Flight No", "value": "EB345"},
-    {"key": "Travellers", "value": "4"},
-    {"key": "Stops", "value": "1"}
-  ];
+  Flight get flight => widget.flight;
+
   TextStyle keyStyle = TextStyle(
     color: AppColors.darkElv1,
     fontSize: 14.sp,
@@ -115,40 +118,37 @@ class _FlightDetailsPageState extends State<FlightDetailsPage> {
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Table(
-                          defaultColumnWidth: const IntrinsicColumnWidth(),
-                          children: dataList
-                              .map(
-                                (data) => TableRow(children: [
-                                  Text(
-                                    data["key"]!,
-                                    style: keyStyle,
-                                  ),
-                                  Column(
-                                    children: [
-                                      Row(
-                                        children: [
-                                          SizedBox(
-                                            width: 5.w,
-                                          ),
-                                          Text(":"),
-                                          SizedBox(
-                                            width: 5.w,
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: 3.h,
-                                      ),
-                                    ],
-                                  ),
-                                  Text(
-                                    data["value"]!,
-                                    style: valueStyle,
-                                  ),
-                                ]),
-                              )
-                              .toList(),
-                        ),
+                            defaultColumnWidth: const IntrinsicColumnWidth(),
+                            children: [
+                              TableRow(children: [
+                                Text(
+                                  "From",
+                                  style: keyStyle,
+                                ),
+                                Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 5.w,
+                                        ),
+                                        const Text(":"),
+                                        SizedBox(
+                                          width: 5.w,
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 3.h,
+                                    ),
+                                  ],
+                                ),
+                                BlocProvider(
+                                  create: (context) => GetPlaceCubit(),
+                                  child: CityView(id: flight.origin),
+                                )
+                              ]),
+                            ]),
                       ),
                       SizedBox(
                         height: 2.h,
@@ -238,9 +238,13 @@ class _FlightDetailsPageState extends State<FlightDetailsPage> {
                         height: 2.h,
                       ),
                       Center(
-                          child: CheckoutButton(
-                              onPressed: () => Navigator.pushNamed(
-                                  context, AppRouter.checkoutPage))),
+                        child: CheckoutButton(
+                          onPressed: () => Navigator.pushNamed(
+                            context,
+                            AppRouter.checkoutPage,
+                          ),
+                        ),
+                      ),
                       SizedBox(
                         height: 2.h,
                       ),

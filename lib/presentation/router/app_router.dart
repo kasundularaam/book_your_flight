@@ -1,3 +1,4 @@
+import 'package:book_your_flight/data/models/flight.dart';
 import 'package:book_your_flight/logic/cubit/home_page_cubit/home_page_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -88,8 +89,11 @@ class AppRouter {
           ),
         );
       case flightDetailsPage:
+        final Flight flight = settings.arguments as Flight;
         return MaterialPageRoute(
-          builder: (_) => const FlightDetailsPage(),
+          builder: (_) => FlightDetailsPage(
+            flight: flight,
+          ),
         );
       case bookingsPage:
         return MaterialPageRoute(

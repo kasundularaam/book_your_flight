@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,7 +37,7 @@ class _HomePageState extends State<HomePage> {
   String destination = "";
   String departDate = "";
   int tripType = 1;
-  String seatClass = "";
+  String seatClass = "economy";
 
   BYFUser get user => widget.user;
 
@@ -160,7 +162,11 @@ class _HomePageState extends State<HomePage> {
                   ),
                   child: BlocConsumer<HomePageCubit, HomePageState>(
                     listener: (context, state) {
-                      if (state is HomePageFailed) {}
+                      if (state is HomePageFailed) {
+                        SnackBar snackBar =
+                            SnackBar(content: Text(state.errorMsg));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      }
                     },
                     builder: (context, state) {
                       if (state is HomePageLoading) {
