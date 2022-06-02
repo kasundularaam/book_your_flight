@@ -90,7 +90,7 @@ class _FlightDetailsPageState extends State<FlightDetailsPage> {
                 ],
               ),
               SizedBox(
-                height: 5.h,
+                height: 2.h,
               ),
               Expanded(
                 child: Container(

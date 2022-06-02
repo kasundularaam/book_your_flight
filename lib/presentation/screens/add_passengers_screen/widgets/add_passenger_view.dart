@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
@@ -38,18 +40,6 @@ class _AddPassengerViewState extends State<AddPassengerView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Center(
-          child: Text(
-            "Add passengers",
-            style: TextStyle(
-              color: AppColors.primaryColor,
-              fontSize: 14.sp,
-            ),
-          ),
-        ),
-        SizedBox(
-          height: 3.h,
-        ),
         Text(
           "First Name",
           style: TextStyle(
@@ -78,6 +68,16 @@ class _AddPassengerViewState extends State<AddPassengerView> {
         SizedBox(
           height: 2.h,
         ),
+        Text(
+          "Gender",
+          style: TextStyle(
+            color: AppColors.primaryColor,
+            fontSize: 12.sp,
+          ),
+        ),
+        SizedBox(
+          height: 2.h,
+        ),
         GenderSelector(onSelect: (value) => gender = value),
         SizedBox(
           height: 5.h,
@@ -95,6 +95,7 @@ class _AddPassengerViewState extends State<AddPassengerView> {
             }
           },
           builder: (context, state) {
+            log(state.toString());
             if (state is AddPassengerLoading) {
               return const CircularProgressIndicator(
                 color: AppColors.primaryColor,

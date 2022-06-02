@@ -41,7 +41,7 @@ class _GenderSelectorState extends State<GenderSelector> {
                     fontWeight: FontWeight.bold),
               ),
               Radio<String>(
-                value: 'Male',
+                value: 'male',
                 groupValue: selectedGender,
                 onChanged: (value) {
                   setState(() {
@@ -62,7 +62,7 @@ class _GenderSelectorState extends State<GenderSelector> {
                     fontWeight: FontWeight.bold),
               ),
               Radio<String>(
-                value: 'Female',
+                value: 'female',
                 groupValue: selectedGender,
                 onChanged: (value) {
                   setState(() {

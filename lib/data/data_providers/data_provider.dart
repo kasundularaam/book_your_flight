@@ -10,7 +10,7 @@ class DataProvider {
   static String flight(FlightParams flight) =>
       "$baseUrl/flight?Origin=${flight.origin}&Destination=${flight.destination}&DepartDate=${flight.departDate}&TripType=1&SeatClass=${flight.seatClass}";
   static String getFlightById(int id) => "$baseUrl/flight/$id";
-  static String get passenger => "$baseUrl/passenger";
+  static String get passenger => "$baseUrl/passenger/";
   static String get book => "$baseUrl/flight/ticket/book";
   static String updateBooking(int id) => "$baseUrl/flight/ticket/book/$id";
 }

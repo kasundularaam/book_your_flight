@@ -20,4 +20,11 @@ class PassengersCubit extends Cubit<PassengersState> {
   }
 
   showPassengers() => emit(PassengersShow(passengers: passengers));
+
+  removePassenger({required int id}) {
+    int index = passengerIds.indexOf(id);
+    passengers.removeAt(index);
+    passengerIds.remove(id);
+    emit(PassengersShow(passengers: passengers));
+  }
 }

@@ -12,16 +12,6 @@ class PassengersShow extends PassengersState {
   });
 
   @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is PassengersShow && listEquals(other.passengers, passengers);
-  }
-
-  @override
-  int get hashCode => passengers.hashCode;
-
-  @override
   String toString() => 'PassengersShow(passengers: $passengers)';
 }
 

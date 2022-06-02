@@ -168,7 +168,7 @@ class HTTPServices {
           ),
           body: newPassenger.toMap());
       log(res.body);
-      if (res.statusCode == 200) {
+      if (res.statusCode == 201) {
         return Passenger.fromJson(res.body);
       } else {
         throw "An error occurred";
