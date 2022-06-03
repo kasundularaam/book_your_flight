@@ -47,7 +47,7 @@ class BYFUser {
 
   factory BYFUser.fromMap(Map<String, dynamic> map) {
     return BYFUser(
-      id: map['id']?.toInt() ?? 0,
+      id: map['id']?.toInt() ?? -1,
       username: map['username'] ?? '',
       first_name: map['first_name'] ?? '',
       last_name: map['last_name'] ?? '',

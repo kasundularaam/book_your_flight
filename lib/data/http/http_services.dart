@@ -30,7 +30,7 @@ class HTTPServices {
         throw "An error occurred";
       }
     } catch (e) {
-      throw e.toString();
+      throw "Account not found";
     }
   }
 

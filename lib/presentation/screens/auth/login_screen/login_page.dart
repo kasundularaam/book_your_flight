@@ -109,7 +109,7 @@ class _LoginPageState extends State<LoginPage> {
                   listener: (context, state) {
                     if (state is LoginFailed) {
                       SnackBar snackBar =
-                          SnackBar(content: Text(state.toString()));
+                          SnackBar(content: Text(state.errorMsg.toString()));
                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
                     }
                     if (state is LoginSucceed) {

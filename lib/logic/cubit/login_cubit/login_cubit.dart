@@ -15,8 +15,12 @@ class LoginCubit extends Cubit<LoginState> {
       emit(LoginLoading());
       BYFUser user =
           await HTTPServices.login(username: username, password: password);
-      await SharedServices.addUser(uid: user.id);
-      emit(LoginSucceed(user: user));
+      if (user.id != -1) {
+        await SharedServices.addUser(uid: user.id);
+        emit(LoginSucceed(user: user));
+      } else {
+        emit(LoginFailed(errorMsg: "Login failed"));
+      }
     } catch (e) {
       emit(LoginFailed(errorMsg: e.toString()));
     }
