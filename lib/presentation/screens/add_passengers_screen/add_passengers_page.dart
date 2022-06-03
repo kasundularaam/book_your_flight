@@ -192,12 +192,16 @@ class _AppPassengersPageState extends State<AppPassengersPage> {
                       ),
                     ),
                     TextButton(
-                      onPressed: () => Navigator.pushNamed(
-                          context, AppRouter.flightDetailsPage, arguments: {
-                        "flight": flight,
-                        "seatClass": seatClass,
-                        "passengers": passengers
-                      }),
+                      onPressed: () {
+                        if (passengers.isNotEmpty) {
+                          Navigator.pushNamed(
+                              context, AppRouter.flightDetailsPage, arguments: {
+                            "flight": flight,
+                            "seatClass": seatClass,
+                            "passengers": passengers
+                          });
+                        }
+                      },
                       child: Text(
                         "Next",
                         style: TextStyle(

@@ -1,3 +1,4 @@
+import 'package:book_your_flight/presentation/screens/booking_screen/booking_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -36,6 +37,8 @@ class AppRouter {
   static const String checkoutPage = '/checkoutPage';
   static const String mapPage = '/mapPage';
   static const String bookingsPage = '/bookingsPage';
+  static const String bookingPage = '/bookingPage';
+
   static const String addPassengersPage = '/addPassengersPage';
 
   const AppRouter._();
@@ -100,6 +103,16 @@ class AppRouter {
           builder: (_) => FlightDetailsPage(
             flight: args["flight"],
             seatClass: args["seatClass"],
+            passengers: args["passengers"],
+          ),
+        );
+      case bookingPage:
+        final Map<String, dynamic> args =
+            settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(
+          builder: (_) => BookingPage(
+            flight: args["flight"],
+            booking: args["booking"],
             passengers: args["passengers"],
           ),
         );

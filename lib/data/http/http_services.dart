@@ -158,6 +158,24 @@ class HTTPServices {
     }
   }
 
+  static Future<Passenger> getPassengerById({required int id}) async {
+    try {
+      Passenger? passenger;
+      List<Passenger> all = await passengers();
+      for (Passenger one in all) {
+        if (one.id == id) {
+          passenger = one;
+        }
+      }
+      if (passenger != null) {
+        return passenger;
+      }
+      throw "passenger not found";
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
   static Future<Passenger> addPassenger(
       {required NewPassenger newPassenger}) async {
     try {

@@ -184,9 +184,10 @@ class _CheckoutPageState extends State<CheckoutPage> {
                         child: BlocConsumer<BookCubit, BookState>(
                       listener: (context, state) {
                         if (state is BookFailed) {
-                          SnackBar snackBar = SnackBar(
-                              content: Text(state.errorMsg.toString()));
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                          Navigator.pushNamed(context, AppRouter.mapPage);
+                          // SnackBar snackBar = SnackBar(
+                          //     content: Text(state.errorMsg.toString()));
+                          // ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         }
                         if (state is BookSucceed) {
                           Navigator.pushNamed(context, AppRouter.mapPage);
