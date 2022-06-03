@@ -1,10 +1,10 @@
 import 'package:bloc/bloc.dart';
-import 'package:book_your_flight/data/http/http_services.dart';
-import 'package:book_your_flight/data/models/register.dart';
-import 'package:book_your_flight/data/shared/shred_services.dart';
 import 'package:meta/meta.dart';
 
+import '../../../data/http/http_services.dart';
 import '../../../data/models/byf_user.dart';
+import '../../../data/models/register.dart';
+import '../../../data/shared/shred_services.dart';
 
 part 'register_state.dart';
 

@@ -3,10 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 
-import 'package:book_your_flight/data/models/passenger.dart';
-
 import '../../../core/constants/app_colors.dart';
 import '../../../data/models/flight.dart';
+import '../../../data/models/passenger.dart';
 import '../../../logic/cubit/get_place_cubit/get_place_cubit.dart';
 import '../../router/app_router.dart';
 import 'widgets/checkout_button.dart';

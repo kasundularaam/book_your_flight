@@ -1,7 +1,8 @@
 import 'package:bloc/bloc.dart';
-import 'package:book_your_flight/data/http/http_services.dart';
-import 'package:book_your_flight/data/models/booking.dart';
 import 'package:flutter/foundation.dart';
+
+import '../../../data/http/http_services.dart';
+import '../../../data/models/booking.dart';
 
 part 'bookings_state.dart';
 

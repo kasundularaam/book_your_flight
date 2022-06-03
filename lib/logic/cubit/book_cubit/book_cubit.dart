@@ -1,14 +1,13 @@
 import 'package:bloc/bloc.dart';
-import 'package:book_your_flight/data/http/http_services.dart';
-import 'package:book_your_flight/data/models/booking.dart';
-import 'package:book_your_flight/data/models/byf_user.dart';
-import 'package:book_your_flight/data/shared/shred_services.dart';
 import 'package:meta/meta.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../../data/http/http_services.dart';
+import '../../../data/models/booking.dart';
+import '../../../data/models/byf_user.dart';
 import '../../../data/models/flight.dart';
 import '../../../data/models/passenger.dart';
+import '../../../data/shared/shred_services.dart';
 
 part 'book_state.dart';
 

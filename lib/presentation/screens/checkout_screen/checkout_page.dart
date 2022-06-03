@@ -1,4 +1,3 @@
-import 'package:book_your_flight/presentation/router/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,6 +10,7 @@ import '../../../core/constants/app_colors.dart';
 import '../../../data/models/flight.dart';
 import '../../../data/models/passenger.dart';
 import '../../../logic/cubit/book_cubit/book_cubit.dart';
+import '../../router/app_router.dart';
 import '../auth/widgets/auth_button.dart';
 
 class CheckoutPage extends StatefulWidget {
@@ -50,9 +50,15 @@ class _CheckoutPageState extends State<CheckoutPage> {
     });
   }
 
+  // book() {
+  //   Navigator.pushNamed(context, AppRouter.mapPage);
+  // }
+
   book() {
-    BlocProvider.of<BookCubit>(context)
-        .book(flight: flight, seatClass: seatClass, passengers: passengers);
+    if (formKey.currentState!.validate()) {
+      BlocProvider.of<BookCubit>(context)
+          .book(flight: flight, seatClass: seatClass, passengers: passengers);
+    }
   }
 
   @override
@@ -96,7 +102,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
               ],
             ),
             SizedBox(
-              height: 5.h,
+              height: 2.h,
             ),
             Expanded(
               child: Container(

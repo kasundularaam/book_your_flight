@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:book_your_flight/data/models/booking.dart';
-import 'package:book_your_flight/data/models/flight.dart';
-import 'package:book_your_flight/data/models/passenger.dart';
-import 'package:book_your_flight/data/models/place.dart';
+import '../../data/models/booking.dart';
+import '../../data/models/flight.dart';
+import '../../data/models/passenger.dart';
+import '../../data/models/place.dart';
 
 class HTTPListConverter {
   static List<Place> parsePlaces(String responseBody) {

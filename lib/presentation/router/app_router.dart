@@ -1,4 +1,3 @@
-import 'package:book_your_flight/logic/cubit/bookings_cubit/bookings_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -8,6 +7,7 @@ import '../../data/models/flight_params.dart';
 import '../../logic/cubit/add_passenger_cubit/add_passenger_cubit.dart';
 import '../../logic/cubit/book_cubit/book_cubit.dart';
 import '../../logic/cubit/booking_type_cubit/booking_type_cubit.dart';
+import '../../logic/cubit/bookings_cubit/bookings_cubit.dart';
 import '../../logic/cubit/home_page_cubit/home_page_cubit.dart';
 import '../../logic/cubit/landing_cubit/landing_cubit.dart';
 import '../../logic/cubit/login_cubit/login_cubit.dart';

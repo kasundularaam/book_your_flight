@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
@@ -95,7 +93,6 @@ class _AddPassengerViewState extends State<AddPassengerView> {
             }
           },
           builder: (context, state) {
-            log(state.toString());
             if (state is AddPassengerLoading) {
               return const CircularProgressIndicator(
                 color: AppColors.primaryColor,

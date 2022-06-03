@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 
-import 'package:book_your_flight/data/models/byf_user.dart';
-
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/strings.dart';
+import '../../../../data/models/byf_user.dart';
 import '../../../../logic/cubit/sign_out_cubit/sign_out_cubit.dart';
 import '../../../router/app_router.dart';
 

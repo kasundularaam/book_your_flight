@@ -1,14 +1,14 @@
-import 'package:book_your_flight/core/constants/app_colors.dart';
-import 'package:book_your_flight/core/constants/strings.dart';
-import 'package:book_your_flight/logic/cubit/login_cubit/login_cubit.dart';
-import 'package:book_your_flight/presentation/screens/auth/widgets/auth_button.dart';
-import 'package:book_your_flight/presentation/screens/auth/widgets/auth_text_input.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../../core/constants/app_colors.dart';
+import '../../../../core/constants/strings.dart';
+import '../../../../logic/cubit/login_cubit/login_cubit.dart';
 import '../../../router/app_router.dart';
+import '../widgets/auth_button.dart';
+import '../widgets/auth_text_input.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);

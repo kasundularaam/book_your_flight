@@ -1,10 +1,10 @@
-import 'package:book_your_flight/core/constants/app_colors.dart';
-import 'package:book_your_flight/logic/cubit/bookings_cubit/bookings_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../core/constants/app_colors.dart';
 import '../../../data/models/booking.dart';
+import '../../../logic/cubit/bookings_cubit/bookings_cubit.dart';
 
 class BookingsPage extends StatefulWidget {
   const BookingsPage({Key? key}) : super(key: key);

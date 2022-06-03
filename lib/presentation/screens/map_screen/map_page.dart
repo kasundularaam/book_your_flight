@@ -1,12 +1,13 @@
-import "package:latlong2/latlong.dart" as latlng;
+import 'dart:async';
+
+import "package:latlong2/latlong.dart" as latLng;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:sizer/sizer.dart';
 
-import 'package:book_your_flight/core/constants/strings.dart';
-
 import '../../../core/constants/app_colors.dart';
+import '../../../core/constants/strings.dart';
 
 class MapPage extends StatefulWidget {
   const MapPage({Key? key}) : super(key: key);
@@ -17,20 +18,36 @@ class MapPage extends StatefulWidget {
 
 class _MapPageState extends State<MapPage> {
   List<Marker> markers = [];
+  MapController mapController = MapController();
+  double lat = 6.9271;
+  double lng = 79.8612;
   Marker marker = Marker(
     width: 200,
     height: 200,
-    point: latlng.LatLng(6.9271, 79.8612),
+    point: latLng.LatLng(6.9271, 79.8612),
     builder: (context) => const MarkerView(name: "Cinnamon Air"),
   );
-  @override
-  void initState() {
-    markers.add(marker);
-    super.initState();
+
+  move() {
+    Timer.periodic(const Duration(milliseconds: 1000), (timer) {
+      lat = lat + 0.00001;
+      lng = lng + 0.00001;
+      setState(() {
+        marker = Marker(
+          width: 200,
+          height: 200,
+          point: latLng.LatLng(lat, lng),
+          builder: (context) => const MarkerView(name: "Cinnamon Air"),
+        );
+        markers = [marker];
+        mapController.move(latLng.LatLng(lat, lng), 7.0);
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    move();
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
         statusBarColor: AppColors.primaryColor,
@@ -61,7 +78,7 @@ class _MapPageState extends State<MapPage> {
                     width: 5.w,
                   ),
                   Text(
-                    "Checkout",
+                    "Your Flight",
                     style: TextStyle(
                         color: AppColors.lightColor,
                         fontSize: 18.sp,
@@ -70,18 +87,18 @@ class _MapPageState extends State<MapPage> {
                 ],
               ),
               SizedBox(
-                height: 5.h,
+                height: 2.h,
               ),
               Expanded(
                 child: ClipRRect(
                   borderRadius:
                       BorderRadius.vertical(top: Radius.circular(6.w)),
                   child: FlutterMap(
-                    // mapController: mapController,
                     options: MapOptions(
-                      center: latlng.LatLng(6.9271, 79.8612),
+                      center: latLng.LatLng(lat, lng),
                       zoom: 6.0,
                     ),
+                    mapController: mapController,
                     layers: [
                       TileLayerOptions(
                         urlTemplate:

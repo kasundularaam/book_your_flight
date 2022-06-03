@@ -1,8 +1,9 @@
 import 'package:bloc/bloc.dart';
-import 'package:book_your_flight/data/http/http_services.dart';
-import 'package:book_your_flight/data/models/flight.dart';
-import 'package:book_your_flight/data/models/flight_params.dart';
 import 'package:flutter/foundation.dart';
+
+import '../../../data/http/http_services.dart';
+import '../../../data/models/flight.dart';
+import '../../../data/models/flight_params.dart';
 
 part 'search_flights_state.dart';
 

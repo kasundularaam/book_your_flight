@@ -1,7 +1,5 @@
 import 'dart:convert';
-import 'dart:developer';
 
-import 'package:book_your_flight/data/models/new_passenger.dart';
 import 'package:http/http.dart' as http;
 
 import '../../core/converters/http_list_converter.dart';
@@ -11,6 +9,7 @@ import '../models/booking_update.dart';
 import '../models/byf_user.dart';
 import '../models/flight.dart';
 import '../models/flight_params.dart';
+import '../models/new_passenger.dart';
 import '../models/passenger.dart';
 import '../models/place.dart';
 import '../models/register.dart';
@@ -179,7 +178,6 @@ class HTTPServices {
 
   static Future<Booking> book({required Booking booking}) async {
     try {
-      log(booking.toString());
       final res = await http.post(
           Uri.parse(
             DataProvider.book,
@@ -191,7 +189,6 @@ class HTTPServices {
         throw "An error occurred";
       }
     } catch (e) {
-      log(e.toString());
       throw e.toString();
     }
   }

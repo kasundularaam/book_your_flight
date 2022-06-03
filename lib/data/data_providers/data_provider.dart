@@ -1,5 +1,5 @@
-import 'package:book_your_flight/core/constants/configs.dart';
-import 'package:book_your_flight/data/models/flight_params.dart';
+import '../../core/constants/configs.dart';
+import '../models/flight_params.dart';
 
 class DataProvider {
   static String get userRegister => "$baseUrl/user";

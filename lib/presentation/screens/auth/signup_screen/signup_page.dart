@@ -1,11 +1,11 @@
-import 'package:book_your_flight/data/models/register.dart';
-import 'package:book_your_flight/logic/cubit/register_cubit/register_cubit.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../core/constants/app_colors.dart';
+import '../../../../data/models/register.dart';
+import '../../../../logic/cubit/register_cubit/register_cubit.dart';
 import '../../../router/app_router.dart';
 import '../widgets/auth_button.dart';
 import '../widgets/auth_text_input.dart';

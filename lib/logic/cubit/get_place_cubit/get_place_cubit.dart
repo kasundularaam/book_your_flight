@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
-import 'package:book_your_flight/data/http/http_services.dart';
 import 'package:meta/meta.dart';
 
+import '../../../data/http/http_services.dart';
 import '../../../data/models/place.dart';
 
 part 'get_place_state.dart';
