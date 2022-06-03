@@ -10,8 +10,8 @@ class Booking {
   final int flight;
   final String flight_ddate;
   final String flight_adate;
-  final int flight_fare;
-  final String other_charges;
+  final double flight_fare;
+  final double other_charges;
   final String coupon_used;
   final double coupon_discount;
   final double total_fare;
@@ -48,8 +48,8 @@ class Booking {
     int? flight,
     String? flight_ddate,
     String? flight_adate,
-    int? flight_fare,
-    String? other_charges,
+    double? flight_fare,
+    double? other_charges,
     String? coupon_used,
     double? coupon_discount,
     double? total_fare,
@@ -111,8 +111,8 @@ class Booking {
       flight: map['flight']?.toInt() ?? 0,
       flight_ddate: map['flight_ddate'] ?? '',
       flight_adate: map['flight_adate'] ?? '',
-      flight_fare: map['flight_fare']?.toInt() ?? 0,
-      other_charges: map['other_charges'] ?? '',
+      flight_fare: map['flight_fare']?.toDouble() ?? 0.0,
+      other_charges: map['other_charges']?.toDouble() ?? 0.0,
       coupon_used: map['coupon_used'] ?? '',
       coupon_discount: map['coupon_discount']?.toDouble() ?? 0.0,
       total_fare: map['total_fare']?.toDouble() ?? 0.0,

@@ -1,22 +1,37 @@
 import 'package:book_your_flight/presentation/router/app_router.dart';
-import 'package:book_your_flight/presentation/screens/auth/widgets/auth_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_credit_card/credit_card_form.dart';
 import 'package:flutter_credit_card/credit_card_model.dart';
 import 'package:flutter_credit_card/credit_card_widget.dart';
-
-import '../../../core/constants/app_colors.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../core/constants/app_colors.dart';
+import '../../../data/models/flight.dart';
+import '../../../data/models/passenger.dart';
+import '../../../logic/cubit/book_cubit/book_cubit.dart';
+import '../auth/widgets/auth_button.dart';
+
 class CheckoutPage extends StatefulWidget {
-  const CheckoutPage({Key? key}) : super(key: key);
+  final Flight flight;
+  final String seatClass;
+  final List<Passenger> passengers;
+  const CheckoutPage({
+    Key? key,
+    required this.flight,
+    required this.seatClass,
+    required this.passengers,
+  }) : super(key: key);
 
   @override
   State<CheckoutPage> createState() => _CheckoutPageState();
 }
 
 class _CheckoutPageState extends State<CheckoutPage> {
+  Flight get flight => widget.flight;
+  String get seatClass => widget.seatClass;
+  List<Passenger> get passengers => widget.passengers;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   String cardNumber = "";
@@ -35,31 +50,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
     });
   }
 
-  showValidDialog(
-    BuildContext context,
-    String title,
-    String content,
-  ) {
-    showDialog<AlertDialog>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: Color(0xff1b447b),
-          title: Text(title),
-          content: Text(content),
-          actions: [
-            TextButton(
-                child: Text(
-                  "Ok",
-                  style: TextStyle(fontSize: 18, color: Colors.cyan),
-                ),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                }),
-          ],
-        );
-      },
-    );
+  book() {
+    BlocProvider.of<BookCubit>(context)
+        .book(flight: flight, seatClass: seatClass, passengers: passengers);
   }
 
   @override
@@ -149,7 +142,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       obscureCvv: true,
                       obscureNumber: false,
                       cardNumberDecoration: InputDecoration(
-                        border: OutlineInputBorder(),
+                        border: const OutlineInputBorder(),
                         labelText: 'Number',
                         hintText: 'XXXX XXXX XXXX XXXX',
                         errorStyle: TextStyle(
@@ -182,10 +175,26 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       height: 3.h,
                     ),
                     Center(
-                        child: AuthButton(
-                            text: "Pay",
-                            onPress: () => Navigator.of(context)
-                                .pushNamed(AppRouter.mapPage))),
+                        child: BlocConsumer<BookCubit, BookState>(
+                      listener: (context, state) {
+                        if (state is BookFailed) {
+                          SnackBar snackBar = SnackBar(
+                              content: Text(state.errorMsg.toString()));
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        }
+                        if (state is BookSucceed) {
+                          Navigator.pushNamed(context, AppRouter.mapPage);
+                        }
+                      },
+                      builder: (context, state) {
+                        if (state is BookLoading) {
+                          return const CircularProgressIndicator(
+                            color: AppColors.primaryColor,
+                          );
+                        }
+                        return AuthButton(text: "Pay", onPress: () => book());
+                      },
+                    )),
                   ],
                 ),
               ),

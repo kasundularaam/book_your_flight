@@ -1,15 +1,17 @@
-import 'package:book_your_flight/logic/cubit/add_passenger_cubit/add_passenger_cubit.dart';
-import 'package:book_your_flight/logic/cubit/passengers_cubit/passengers_cubit.dart';
+import 'package:book_your_flight/logic/cubit/bookings_cubit/bookings_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/exceptions/route_exception.dart';
 import '../../data/models/byf_user.dart';
 import '../../data/models/flight_params.dart';
+import '../../logic/cubit/add_passenger_cubit/add_passenger_cubit.dart';
+import '../../logic/cubit/book_cubit/book_cubit.dart';
 import '../../logic/cubit/booking_type_cubit/booking_type_cubit.dart';
 import '../../logic/cubit/home_page_cubit/home_page_cubit.dart';
 import '../../logic/cubit/landing_cubit/landing_cubit.dart';
 import '../../logic/cubit/login_cubit/login_cubit.dart';
+import '../../logic/cubit/passengers_cubit/passengers_cubit.dart';
 import '../../logic/cubit/register_cubit/register_cubit.dart';
 import '../../logic/cubit/search_flights_cubit/search_flights_cubit.dart';
 import '../../logic/cubit/select_class_cubit/select_class_cubit.dart';
@@ -98,6 +100,7 @@ class AppRouter {
           builder: (_) => FlightDetailsPage(
             flight: args["flight"],
             seatClass: args["seatClass"],
+            passengers: args["passengers"],
           ),
         );
       case addPassengersPage:
@@ -121,11 +124,23 @@ class AppRouter {
         );
       case bookingsPage:
         return MaterialPageRoute(
-          builder: (_) => const BookingsPage(),
+          builder: (_) => BlocProvider(
+            create: (context) => BookingsCubit(),
+            child: const BookingsPage(),
+          ),
         );
       case checkoutPage:
+        final Map<String, dynamic> args =
+            settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(
-          builder: (_) => const CheckoutPage(),
+          builder: (_) => BlocProvider(
+            create: (context) => BookCubit(),
+            child: CheckoutPage(
+              flight: args["flight"],
+              seatClass: args["seatClass"],
+              passengers: args["passengers"],
+            ),
+          ),
         );
       case mapPage:
         return MaterialPageRoute(

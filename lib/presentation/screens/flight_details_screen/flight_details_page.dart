@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 
+import 'package:book_your_flight/data/models/passenger.dart';
+
 import '../../../core/constants/app_colors.dart';
 import '../../../data/models/flight.dart';
 import '../../../logic/cubit/get_place_cubit/get_place_cubit.dart';
@@ -13,10 +15,13 @@ import 'widgets/city_view.dart';
 class FlightDetailsPage extends StatefulWidget {
   final Flight flight;
   final String seatClass;
-
-  const FlightDetailsPage(
-      {Key? key, required this.flight, required this.seatClass})
-      : super(key: key);
+  final List<Passenger> passengers;
+  const FlightDetailsPage({
+    Key? key,
+    required this.flight,
+    required this.seatClass,
+    required this.passengers,
+  }) : super(key: key);
 
   @override
   State<FlightDetailsPage> createState() => _FlightDetailsPageState();
@@ -25,7 +30,7 @@ class FlightDetailsPage extends StatefulWidget {
 class _FlightDetailsPageState extends State<FlightDetailsPage> {
   Flight get flight => widget.flight;
   String get seatClass => widget.seatClass;
-
+  List<Passenger> get passengers => widget.passengers;
   TextStyle keyStyle = TextStyle(
     color: AppColors.darkElv1,
     fontSize: 14.sp,
@@ -324,14 +329,14 @@ class _FlightDetailsPageState extends State<FlightDetailsPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "Economy Fare",
+                            "$seatClass Fare",
                             style: TextStyle(
                               color: AppColors.darkElv1,
                               fontSize: 14.sp,
                             ),
                           ),
                           Text(
-                            "\$${flight.economy_fare}",
+                            "\$${getPrice()}",
                             style: TextStyle(
                               color: AppColors.primaryColor,
                               fontSize: 14.sp,
@@ -347,37 +352,14 @@ class _FlightDetailsPageState extends State<FlightDetailsPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "Business Fare",
+                            "Passengers",
                             style: TextStyle(
                               color: AppColors.darkElv1,
                               fontSize: 14.sp,
                             ),
                           ),
                           Text(
-                            "\$${flight.business_fare}",
-                            style: TextStyle(
-                              color: AppColors.primaryColor,
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        height: 2.h,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "First Fare",
-                            style: TextStyle(
-                              color: AppColors.darkElv1,
-                              fontSize: 14.sp,
-                            ),
-                          ),
-                          Text(
-                            "\$${flight.first_fare}",
+                            "${passengers.length}",
                             style: TextStyle(
                               color: AppColors.primaryColor,
                               fontSize: 14.sp,
@@ -390,7 +372,7 @@ class _FlightDetailsPageState extends State<FlightDetailsPage> {
                         height: 2.h,
                       ),
                       Container(
-                        color: AppColors.darkElv1,
+                        color: AppColors.primaryColor,
                         height: 0.2.h,
                       ),
                       SizedBox(
@@ -400,7 +382,7 @@ class _FlightDetailsPageState extends State<FlightDetailsPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "$seatClass Selected",
+                            "Total fare",
                             style: TextStyle(
                               color: AppColors.primaryColor,
                               fontSize: 14.sp,
@@ -408,7 +390,7 @@ class _FlightDetailsPageState extends State<FlightDetailsPage> {
                             ),
                           ),
                           Text(
-                            "\$${getPrice()}",
+                            "\$${getPrice() * passengers.length}",
                             style: TextStyle(
                               color: AppColors.primaryColor,
                               fontSize: 22.sp,
@@ -418,14 +400,15 @@ class _FlightDetailsPageState extends State<FlightDetailsPage> {
                         ],
                       ),
                       SizedBox(
-                        height: 2.h,
+                        height: 5.h,
                       ),
                       Center(
                         child: CheckoutButton(
                           onPressed: () => Navigator.pushNamed(
-                              context, AppRouter.addPassengersPage, arguments: {
+                              context, AppRouter.checkoutPage, arguments: {
                             "flight": flight,
-                            "seatClass": seatClass
+                            "seatClass": seatClass,
+                            "passengers": passengers
                           }),
                         ),
                       ),

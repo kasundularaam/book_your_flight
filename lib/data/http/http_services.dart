@@ -167,7 +167,6 @@ class HTTPServices {
             DataProvider.passenger,
           ),
           body: newPassenger.toMap());
-      log(res.body);
       if (res.statusCode == 201) {
         return Passenger.fromJson(res.body);
       } else {
@@ -180,17 +179,19 @@ class HTTPServices {
 
   static Future<Booking> book({required Booking booking}) async {
     try {
+      log(booking.toString());
       final res = await http.post(
           Uri.parse(
             DataProvider.book,
           ),
           body: booking.toJson());
-      if (res.statusCode == 200) {
+      if (res.statusCode == 201) {
         return Booking.fromJson(res.body);
       } else {
         throw "An error occurred";
       }
     } catch (e) {
+      log(e.toString());
       throw e.toString();
     }
   }

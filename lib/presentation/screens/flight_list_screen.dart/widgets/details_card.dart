@@ -69,7 +69,7 @@ class _DetailsCardState extends State<DetailsCard> {
     return Column(
       children: [
         InkWell(
-          onTap: () => Navigator.pushNamed(context, AppRouter.flightDetailsPage,
+          onTap: () => Navigator.pushNamed(context, AppRouter.addPassengersPage,
               arguments: {"flight": flight, "seatClass": seatClass}),
           child: Container(
             padding: EdgeInsets.all(5.w),

@@ -9,6 +9,7 @@ import '../../../core/constants/app_colors.dart';
 import '../../../data/models/flight.dart';
 import '../../../data/models/passenger.dart';
 import '../../../logic/cubit/passengers_cubit/passengers_cubit.dart';
+import '../../router/app_router.dart';
 import 'widgets/add_passenger_view.dart';
 
 class AppPassengersPage extends StatefulWidget {
@@ -25,6 +26,9 @@ class AppPassengersPage extends StatefulWidget {
 }
 
 class _AppPassengersPageState extends State<AppPassengersPage> {
+  Flight get flight => widget.flight;
+  String get seatClass => widget.seatClass;
+  List<Passenger> passengers = [];
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -101,14 +105,14 @@ class _AppPassengersPageState extends State<AppPassengersPage> {
                       ),
                       BlocBuilder<PassengersCubit, PassengersState>(
                         builder: (context, state) {
-                          log(state.toString());
                           if (state is PassengersShow) {
+                            passengers = state.passengers;
                             return ListView.builder(
-                                itemCount: state.passengers.length,
+                                itemCount: passengers.length,
                                 physics: const BouncingScrollPhysics(),
                                 shrinkWrap: true,
                                 itemBuilder: (context, index) {
-                                  Passenger passenger = state.passengers[index];
+                                  Passenger passenger = passengers[index];
                                   return Column(
                                     children: [
                                       Container(
@@ -174,6 +178,37 @@ class _AppPassengersPageState extends State<AppPassengersPage> {
                       )
                     ],
                   ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        "Go to checkout",
+                        style: TextStyle(
+                          color: AppColors.lightColor,
+                          fontSize: 14.sp,
+                        ),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () => Navigator.pushNamed(
+                          context, AppRouter.flightDetailsPage, arguments: {
+                        "flight": flight,
+                        "seatClass": seatClass,
+                        "passengers": passengers
+                      }),
+                      child: Text(
+                        "Next",
+                        style: TextStyle(
+                            color: AppColors.lightColor,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    )
+                  ],
                 ),
               ),
             ],
