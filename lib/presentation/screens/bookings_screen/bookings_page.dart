@@ -1,10 +1,10 @@
-import 'package:book_your_flight/logic/cubit/booking_card_cubit/booking_card_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../core/constants/app_colors.dart';
 import '../../../data/models/booking.dart';
+import '../../../logic/cubit/booking_card_cubit/booking_card_cubit.dart';
 import '../../../logic/cubit/bookings_cubit/bookings_cubit.dart';
 import 'widgets/booking_card.dart';
 

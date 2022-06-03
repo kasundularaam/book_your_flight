@@ -1,4 +1,3 @@
-import 'package:book_your_flight/presentation/router/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
@@ -8,6 +7,7 @@ import '../../../../core/constants/strings.dart';
 import '../../../../data/models/booking.dart';
 import '../../../../logic/cubit/booking_card_cubit/booking_card_cubit.dart';
 import '../../../../logic/cubit/get_place_cubit/get_place_cubit.dart';
+import '../../../router/app_router.dart';
 import 'city_view.dart';
 
 class BookingCard extends StatefulWidget {

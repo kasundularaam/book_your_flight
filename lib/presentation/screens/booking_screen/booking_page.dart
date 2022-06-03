@@ -1,15 +1,14 @@
-import 'package:book_your_flight/presentation/router/app_router.dart';
-import 'package:book_your_flight/presentation/screens/auth/widgets/auth_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 
-import 'package:book_your_flight/data/models/flight.dart';
-import 'package:book_your_flight/data/models/passenger.dart';
-
 import '../../../core/constants/app_colors.dart';
 import '../../../data/models/booking.dart';
+import '../../../data/models/flight.dart';
+import '../../../data/models/passenger.dart';
 import '../../../logic/cubit/get_place_cubit/get_place_cubit.dart';
+import '../../router/app_router.dart';
+import '../auth/widgets/auth_button.dart';
 import '../bookings_screen/widgets/city_view.dart';
 
 class BookingPage extends StatefulWidget {

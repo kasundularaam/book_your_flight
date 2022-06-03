@@ -1,4 +1,3 @@
-import 'package:book_your_flight/presentation/screens/booking_screen/booking_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -20,6 +19,7 @@ import '../screens/add_passengers_screen/add_passengers_page.dart';
 import '../screens/auth/landing_screen/landing_page.dart';
 import '../screens/auth/login_screen/login_page.dart';
 import '../screens/auth/signup_screen/signup_page.dart';
+import '../screens/booking_screen/booking_page.dart';
 import '../screens/bookings_screen/bookings_page.dart';
 import '../screens/checkout_screen/checkout_page.dart';
 import '../screens/flight_details_screen/flight_details_page.dart';
