@@ -29,7 +29,8 @@ class _LandingPageState extends State<LandingPage> {
               arguments: state.user);
         }
         if (state is LandingFailed) {
-          SnackBar snackBar = SnackBar(content: Text(state.toString()));
+          SnackBar snackBar =
+              SnackBar(content: Text(state.errorMsg.toString()));
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         }
       },

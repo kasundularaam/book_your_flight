@@ -18,14 +18,12 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
-  TextEditingController usernameController = TextEditingController();
   TextEditingController firstNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
   register() {
-    String username = usernameController.text;
     String first_name = firstNameController.text;
     String last_name = lastNameController.text;
     String email = emailController.text;
@@ -36,7 +34,7 @@ class _SignupPageState extends State<SignupPage> {
         password.isNotEmpty) {
       BlocProvider.of<RegisterCubit>(context).register(
         register: Register(
-          username: username,
+          username: email,
           first_name: first_name,
           last_name: last_name,
           email: email,
@@ -78,20 +76,6 @@ class _SignupPageState extends State<SignupPage> {
               ),
               SizedBox(
                 height: 5.h,
-              ),
-              Text(
-                "Username",
-                style: TextStyle(
-                  color: AppColors.primaryColor,
-                  fontSize: 12.sp,
-                ),
-              ),
-              AuthTextInput(
-                controller: usernameController,
-                keyboardType: TextInputType.text,
-              ),
-              SizedBox(
-                height: 4.h,
               ),
               Text(
                 "First Name",
